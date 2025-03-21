@@ -1,0 +1,12 @@
+# created by virtualenv automatically
+.venv/Lib
+.venv/
+
+#bot/config.py
+.env
+
+
+__pycache__/
+.idea/
+.idea/workspace.xml
+
