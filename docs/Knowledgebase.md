@@ -1,10 +1,10 @@
 Если LLM
-    распознает учебник:
+    узнает учебник:
         LLM 
-    не распознает учебник:
+    не узнает учебник:
         БЗ
         (OCR)
-        LLM (response API?)
+        LLM (response API: file_search)
 
 
 БЗ:
