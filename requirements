@@ -1,7 +1,10 @@
 streamlit
 python-dotenv
+python-docx
+openai
+boto3
 
-pytesseract pillow openai uvicorn
+
 
 
 

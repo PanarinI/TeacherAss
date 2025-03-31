@@ -1,0 +1,14 @@
+F:\PythonProject\TeacherAss\.venv\Scripts\python.exe F:\PythonProject\TeacherAss\testAPI.py
+2025-03-30 22:13:21,519 - INFO - Начинаем тестирование API OpenAI...
+2025-03-30 22:13:21,519 - INFO - Тестируем эндпоинт chat/completions...
+2025-03-30 22:13:23,988 - INFO - HTTP Request: POST https://api.aitunnel.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-30 22:13:23,995 - INFO - Ответ от chat/completions: Hello! How can I assist you today?
+2025-03-30 22:13:23,995 - INFO - Тестируем эндпоинт responses...
+2025-03-30 22:13:24,252 - INFO - HTTP Request: POST https://api.aitunnel.ru/v1/responses "HTTP/1.1 404 Not Found"
+2025-03-30 22:13:24,253 - ERROR - Ошибка при вызове responses: Error code: 404 - {'error': {'message': 'Неопознанный запрос (POST /v1/responses). Ознакомьтесь с документацией на сайте https://aitunnel.ru', 'code': 404}}
+2025-03-30 22:13:24,254 - INFO - Тестируем эндпоинт assistants...
+2025-03-30 22:13:24,525 - INFO - HTTP Request: POST https://api.aitunnel.ru/v1/assistants "HTTP/1.1 404 Not Found"
+2025-03-30 22:13:24,526 - ERROR - Ошибка при вызове assistants: Error code: 404 - {'error': {'message': 'Неопознанный запрос (POST /v1/assistants). Ознакомьтесь с документацией на сайте https://aitunnel.ru', 'code': 404}}
+2025-03-30 22:13:24,526 - INFO - Тестирование завершено.
+
+Process finished with exit code 0
