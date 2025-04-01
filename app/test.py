@@ -1,4 +1,3 @@
-# 1. Импорты (все библиотеки)
 import streamlit as st
 from openai import OpenAI, BadRequestError
 from pydantic import BaseModel
@@ -7,30 +6,37 @@ import logging
 import os
 from dotenv import load_dotenv
 
+# 1. Конфигурация полей формы
+FORM_CONFIG = {
+    "main_fields": {
+        "subject": {"label": "Предмет", "type": "text", "default": ""},
+        "textbook": {"label": "Название учебника", "type": "text", "default": ""},
+        "students": {"label": "Количество учеников", "type": "slider", "min": 1, "max": 40, "default": 10},
+        "methodology": {
+            "label": "Методика обучения",
+            "type": "selectbox",
+            "options": ["PPP", "TTT"],
+            "default": "PPP"
+        }
+    }
+}
 
-# 2. Первая команда Streamlit (ДОЛЖНА БЫТЬ ПЕРВОЙ)
+AUTO_DETECT_ENABLED = True  # Флаг по умолчанию
+
+# 2. Первая команда Streamlit (должна быть первой)
 st.set_page_config(page_title="Генератор планов уроков", layout="wide")
 
-# Вот этот волшебный CSS:
+# 3. CSS для отключения running состояний
 st.markdown("""
 <style>
-    /* Полностью отключаем running статус */
     [data-testid="stStatusWidget"] {
         display: none !important;
     }
-    /* Фикс для полей ввода */
-    .stTextInput, .stSlider {
+    .stTextInput, .stSlider, .stSelectbox {
         opacity: 1 !important;
     }
 </style>
 """, unsafe_allow_html=True)
-
-# Отключаем реактивность формы
-st.session_state.setdefault("form_values", {
-    "subject": "",
-    "textbook": "",
-    "students": 10
-})
 
 # 4. Настройка логирования
 logging.basicConfig(
@@ -54,7 +60,7 @@ if not API_KEY:
 client = OpenAI(api_key=API_KEY, base_url=BASE_URL)
 
 
-# 7. Pydantic модель
+# 7. Модель данных
 class TextbookInfo(BaseModel):
     subject: str = ""
     textbook_name: str = ""
@@ -80,122 +86,150 @@ def upload_to_catbox(file_bytes):
         return None
 
 
-# 9. Инициализация состояний
+# 9. Функция парсинга ответа
+def parse_response(text: str) -> tuple[str, str]:
+    subject = "Не определено"
+    textbook = "Не определено"
+
+    lines = text.lower().replace("*", "").strip().split('\n')
+    for line in lines:
+        if "предмет:" in line:
+            subject = line.split("предмет:")[1].strip().capitalize()
+        elif "учебник:" in line:
+            textbook = line.split("учебник:")[1].strip().capitalize()
+
+    return subject, textbook
+
+
+# 10. Инициализация состояний
 if "textbook_data" not in st.session_state:
     st.session_state.textbook_data = TextbookInfo()
 if "image_url" not in st.session_state:
     st.session_state.image_url = None
-if "form_data" not in st.session_state:
-    st.session_state.form_data = {"subject": "", "textbook": "", "students": 10}
+if "form_values" not in st.session_state:
+    st.session_state.form_values = {
+        field: config["default"]
+        for field, config in FORM_CONFIG["main_fields"].items()
+    }
+if "force_form_update" not in st.session_state:
+    st.session_state.force_form_update = True
 
-# 10. Основной интерфейс (все st. команды после этого пункта)
+# 11. Основной интерфейс
 left_col, right_col = st.columns([2, 3])
 
 with left_col:
+    st.header("Настройки")
+    AUTO_DETECT_ENABLED = st.toggle(
+        "Автоматическое распознавание учебника",
+        value=True,
+        key="auto_detect_toggle"
+    )
     st.header("Загрузка учебника")
     uploaded_file = st.file_uploader("Выберите изображение страницы", type=["jpg", "png", "jpeg"])
 
-    if uploaded_file and st.session_state.image_url is None:
+    # Обработка загрузки изображения
+    if uploaded_file and not st.session_state.image_url:
         image_url = upload_to_catbox(uploaded_file.getvalue())
         if image_url:
             st.session_state.image_url = image_url
             st.success("Изображение загружено!")
 
-            with st.spinner("Анализ изображения..."):
-                try:
-                    response = client.chat.completions.create(
-                        model="gpt-4o-mini",
-                        messages=[
-                            {
-                                "role": "user",
-                                "content": [
-                                    {"type": "image_url", "image_url": {"url": image_url}},
-                                    {"type": "text", "text": """Определи предмет и учебник. Ответь строго в формате:
-                                    Предмет: [название]
-                                    Учебник: [название]"""}
-                                ]
-                            }
-                        ]
-                    )
-
-                    if response.choices:
-                        text = response.choices[0].message.content
-                        subject = text.split("Предмет:")[1].split("\n")[0].strip() if "Предмет:" in text else ""
-                        textbook = text.split("Учебник:")[1].strip() if "Учебник:" in text else ""
-
-                        st.session_state.textbook_data = TextbookInfo(
-                            subject=subject,
-                            textbook_name=textbook
+            if AUTO_DETECT_ENABLED:  # Только если включено
+                with st.spinner("Анализ изображения..."):
+                    try:
+                        response = client.chat.completions.create(
+                            model="gpt-4o-mini",
+                            messages=[
+                                {
+                                    "role": "user",
+                                    "content": [
+                                        {"type": "image_url", "image_url": {"url": image_url}},
+                                        {"type": "text", "text": """Определи предмет и учебник. Ответь строго в формате:
+                                        Предмет: [название]
+                                        Учебник: [название]"""}
+                                    ]
+                                }
+                            ]
                         )
-                        st.session_state.force_form_update = True  # Важная строка!
-                        st.session_state.form_data["subject"] = subject
-                        st.session_state.form_data["textbook"] = textbook
 
-                except Exception as e:
-                    logger.error(f"Ошибка анализа: {e}")
-                    st.error("Ошибка при анализе изображения")
+                        if response.choices:
+                            subject, textbook = parse_response(response.choices[0].message.content)
+                            st.session_state.textbook_data = TextbookInfo(
+                                subject=subject,
+                                textbook_name=textbook
+                            )
+                            st.session_state.force_form_update = True
 
+                    except Exception as e:
+                        logger.error(f"Ошибка анализа: {e}")
+                        st.error("Ошибка при анализе изображения")
+            else:
+                st.info("Автораспознавание отключено. Заполните данные вручную")
+                st.session_state.textbook_data = TextbookInfo()
+                st.session_state.force_form_update = True
+
+    # Форма с настройками
     if st.session_state.image_url:
         st.subheader("Данные учебника")
 
-        # Критически важный блок - обновляем form_values при первом показе или изменении textbook_data
-        if 'form_values' not in st.session_state or st.session_state.get('force_form_update', True):
-            st.session_state.form_values = {
+        # Обновление значений формы при необходимости
+        if st.session_state.force_form_update:
+            st.session_state.form_values.update({
                 "subject": st.session_state.textbook_data.subject,
-                "textbook": st.session_state.textbook_data.textbook_name,
-                "students": 10
-            }
+                "textbook": st.session_state.textbook_data.textbook_name
+            })
             st.session_state.force_form_update = False
 
         with st.form(key="lesson_form"):
-            # Поля ввода
-            subject = st.text_input(
-                "Предмет",
-                value=st.session_state.form_values["subject"],
-                key="form_subject"
-            )
-
-            textbook_name = st.text_input(
-                "Название учебника",
-                value=st.session_state.form_values["textbook"],
-                key="form_textbook"
-            )
-
-            num_students = st.slider(
-                "Количество учеников",
-                1, 40, st.session_state.form_values["students"],
-                key="form_students"
-            )
+            # Динамическое создание полей из конфига
+            for field, config in FORM_CONFIG["main_fields"].items():
+                if config["type"] == "text":
+                    st.session_state.form_values[field] = st.text_input(
+                        config["label"],
+                        value=st.session_state.form_values[field],
+                        key=f"form_{field}"
+                    )
+                elif config["type"] == "slider":
+                    st.session_state.form_values[field] = st.slider(
+                        config["label"],
+                        min_value=config["min"],
+                        max_value=config["max"],
+                        value=st.session_state.form_values[field],
+                        key=f"form_{field}"
+                    )
+                elif config["type"] == "selectbox":
+                    st.session_state.form_values[field] = st.selectbox(
+                        config["label"],
+                        options=config["options"],
+                        index=config["options"].index(st.session_state.form_values[field]),
+                        key=f"form_{field}"
+                    )
 
             submitted = st.form_submit_button("Создать план урока")
 
             if submitted:
-                st.session_state.form_values.update({
-                    "subject": subject,
-                    "textbook": textbook_name,
-                    "students": num_students
-                })
-
-                if not subject or not textbook_name:
-                    st.warning("Заполните все поля")
+                if not st.session_state.form_values["subject"] or not st.session_state.form_values["textbook"]:
+                    st.warning("Заполните все обязательные поля")
                 else:
-                    with st.spinner("Генерация плана..."):
+                    with st.spinner("Генерация плана урока..."):
                         try:
                             response = client.chat.completions.create(
                                 model="gpt-4o-mini",
                                 messages=[
                                     {
                                         "role": "system",
-                                        "content": "Ты опытный учитель. Создай план урока на основе представленного материала"
+                                        "content": "Ты опытный учитель. Создай детальный план урока."
                                     },
                                     {
                                         "role": "user",
                                         "content": [
                                             {"type": "image_url", "image_url": {"url": st.session_state.image_url}},
                                             {"type": "text", "text": f"""
-                                            Предмет: {subject}
-                                            Учебник: {textbook_name}
-                                            Учеников: {num_students}
+                                            Создай план урока по методике {st.session_state.form_values['methodology']}
+                                            Детали:
+                                            - Предмет: {st.session_state.form_values['subject']}
+                                            - Учебник: {st.session_state.form_values['textbook']}
+                                            - Учеников: {st.session_state.form_values['students']}
                                             """}
                                         ]
                                     }
@@ -203,9 +237,9 @@ with left_col:
                             )
                             right_col.markdown(response.choices[0].message.content)
                         except Exception as e:
-                            st.error(f"Ошибка: {str(e)}")
+                            st.error(f"Ошибка генерации: {e}")
 
-    with right_col:
-        st.header("План урока")
-        if not st.session_state.image_url:
-            st.info("Загрузите изображение учебника")
+with right_col:
+    st.header("План урока")
+    if not st.session_state.image_url:
+        st.info("Загрузите изображение учебника")
