@@ -1,0 +1,8 @@
+2025-04-01 01:31:35,016 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:31:35,018 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:31:35,018 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:31:35,018 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:31:35,018 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:31:35,019 - __main__ - ERROR - API_KEY не найден в переменных окружения
+2025-04-01 01:31:35,458 - __main__ - ERROR - Ошибка инициализации клиента OpenAI: The api_key client option must be set either by passing api_key to the client or by setting the OPENAI_API_KEY environment variable
+2025-04-01 01:31:35,459 - __main__ - INFO - Запуск приложения
