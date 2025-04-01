@@ -1,0 +1,222 @@
+2025-04-01 01:22:27,946 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:22:27,948 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:22:27,948 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:22:27,949 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:22:27,949 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:22:27,949 - __main__ - ERROR - API_KEY не найден в переменных окружения
+2025-04-01 01:23:51,282 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:23:51,283 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:23:51,283 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:23:51,284 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:23:51,284 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:23:51,284 - __main__ - ERROR - API_KEY не найден в переменных окружения
+2025-04-01 01:24:55,286 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:24:55,287 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:24:55,287 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:24:55,288 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:24:55,288 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:24:55,288 - __main__ - ERROR - API_KEY не найден в переменных окружения
+2025-04-01 01:28:03,386 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:28:03,388 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:28:03,388 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:28:03,388 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:28:03,389 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:28:03,389 - __main__ - ERROR - API_KEY не найден в переменных окружения
+2025-04-01 01:32:01,395 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:32:01,396 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:32:01,397 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:32:01,397 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:32:01,397 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:32:01,397 - __main__ - ERROR - API_KEY не найден в переменных окружения
+2025-04-01 01:34:20,876 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:34:20,877 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:34:20,877 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:34:20,877 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:34:20,877 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:34:20,878 - __main__ - ERROR - API_KEY не найден в переменных окружения
+2025-04-01 01:36:01,629 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:36:01,631 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:36:01,631 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:36:01,632 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:36:01,632 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:36:02,967 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:36:02,967 - __main__ - INFO - Запуск приложения
+2025-04-01 01:37:21,799 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:37:21,811 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:37:21,812 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:37:21,813 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:37:21,813 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:37:23,150 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:37:23,150 - __main__ - INFO - Запуск приложения
+2025-04-01 01:37:27,045 - __main__ - ERROR - Ошибка загрузки на catbox.moe: 412 Client Error: Precondition Failed for url: https://catbox.moe/user/api.php
+2025-04-01 01:40:37,348 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:40:37,349 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:40:37,349 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:40:37,349 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:40:37,349 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:40:38,526 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:40:38,527 - __main__ - INFO - Запуск приложения
+2025-04-01 01:40:45,110 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:40:45,111 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:40:45,112 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:40:45,112 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:40:45,112 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:40:46,332 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:40:46,332 - __main__ - INFO - Запуск приложения
+2025-04-01 01:40:48,810 - __main__ - ERROR - Ошибка загрузки на catbox.moe: 412 Client Error: Precondition Failed for url: https://catbox.moe/user/api.php
+2025-04-01 01:42:19,412 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:42:19,445 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:42:19,445 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:42:19,445 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:42:19,446 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:42:21,587 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:47:09,200 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:47:09,201 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:47:09,202 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:47:09,202 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:47:09,202 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:47:10,399 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:47:19,051 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:47:19,053 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:47:19,057 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:47:19,058 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:47:19,058 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:47:20,327 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:47:22,870 - __main__ - ERROR - Ошибка загрузки на catbox.moe: 412 Client Error: Precondition Failed for url: https://catbox.moe/user/api.php
+2025-04-01 01:47:31,810 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:47:31,813 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:47:31,815 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:47:31,815 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:47:31,816 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:47:33,105 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:47:35,952 - __main__ - ERROR - Ошибка загрузки на catbox.moe: 412 Client Error: Precondition Failed for url: https://catbox.moe/user/api.php
+2025-04-01 01:47:40,627 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:47:40,629 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:47:40,630 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:47:40,631 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:47:40,633 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:47:42,447 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:47:43,119 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:47:43,121 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:47:43,123 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:47:43,124 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:47:43,125 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:47:44,607 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:47:44,714 - __main__ - ERROR - Ошибка загрузки на catbox.moe: 412 Client Error: Precondition Failed for url: https://catbox.moe/user/api.php
+2025-04-01 01:47:46,782 - __main__ - ERROR - Ошибка загрузки на catbox.moe: 412 Client Error: Precondition Failed for url: https://catbox.moe/user/api.php
+2025-04-01 01:47:50,120 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:47:50,122 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:47:50,142 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:47:50,144 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:47:50,148 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:47:52,330 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:47:54,863 - __main__ - ERROR - Ошибка загрузки на catbox.moe: 412 Client Error: Precondition Failed for url: https://catbox.moe/user/api.php
+2025-04-01 01:48:09,433 - httpx - INFO - HTTP Request: POST https://api.aitunnel.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-01 01:48:09,453 - __main__ - INFO - План урока успешно сгенерирован
+2025-04-01 01:55:53,243 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:55:53,261 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:55:53,261 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:55:53,262 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:55:53,262 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:55:54,587 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:56:00,249 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:56:00,252 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:56:00,254 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:56:00,255 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:56:00,255 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:56:01,550 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:56:04,054 - __main__ - ERROR - Ошибка загрузки на catbox.moe: 412 Client Error: Precondition Failed for url: https://catbox.moe/user/api.php
+2025-04-01 01:56:36,166 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:56:36,166 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:56:36,167 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:56:36,167 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:56:36,167 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:56:37,372 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:57:29,750 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:57:29,751 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:57:29,757 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:57:29,759 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:57:29,760 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:57:30,183 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:57:30,185 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:57:30,185 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:57:30,185 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:57:30,186 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:57:31,484 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:57:31,839 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:57:36,655 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:57:36,655 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:57:36,656 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:57:36,656 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:57:36,658 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:57:37,976 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:57:41,240 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:57:41,245 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:57:41,247 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:57:41,248 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:57:41,249 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:57:42,579 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:58:39,679 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:58:39,679 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:58:39,680 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:58:39,680 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:58:39,680 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:58:40,978 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:58:43,376 - __main__ - ERROR - Ошибка загрузки на catbox.moe: 412 Client Error: Precondition Failed for url: https://catbox.moe/user/api.php
+2025-04-01 01:58:48,116 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:58:48,119 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:58:48,119 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:58:48,119 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:58:48,120 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:58:49,451 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:58:52,061 - __main__ - ERROR - Ошибка загрузки на catbox.moe: 412 Client Error: Precondition Failed for url: https://catbox.moe/user/api.php
+2025-04-01 01:58:55,988 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:58:55,991 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:58:55,992 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:58:55,993 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:58:55,993 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:58:57,219 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 01:58:59,508 - __main__ - ERROR - Ошибка загрузки на catbox.moe: 412 Client Error: Precondition Failed for url: https://catbox.moe/user/api.php
+2025-04-01 01:59:13,465 - httpx - INFO - HTTP Request: POST https://api.aitunnel.ru/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-01 01:59:13,479 - __main__ - INFO - План урока успешно сгенерирован
+2025-04-01 01:59:57,157 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 01:59:57,158 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 01:59:57,158 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 01:59:57,158 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 01:59:57,158 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 01:59:58,492 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 02:00:12,813 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 02:00:12,827 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 02:00:12,829 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 02:00:12,830 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 02:00:12,831 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 02:00:14,134 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 02:00:16,556 - __main__ - ERROR - Ошибка загрузки на catbox.moe: 412 Client Error: Precondition Failed for url: https://catbox.moe/user/api.php
+2025-04-01 02:00:27,314 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 02:00:27,334 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 02:00:27,335 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 02:00:27,338 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 02:00:27,345 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 02:00:29,034 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 02:00:31,422 - __main__ - ERROR - Ошибка загрузки на catbox.moe: 412 Client Error: Precondition Failed for url: https://catbox.moe/user/api.php
+2025-04-01 02:01:30,811 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 02:01:30,812 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 02:01:30,817 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 02:01:30,817 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 02:01:30,819 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 02:01:32,102 - __main__ - INFO - Клиент OpenAI успешно инициализирован
+2025-04-01 02:01:34,895 - __main__ - ERROR - Ошибка загрузки на catbox.moe: 412 Client Error: Precondition Failed for url: https://catbox.moe/user/api.php
+2025-04-01 02:06:36,816 - __main__ - ERROR - Ошибка инициализации OpenAI: The api_key client option must be set either by passing api_key to the client or by setting the OPENAI_API_KEY environment variable
+2025-04-01 02:08:10,426 - __main__ - ERROR - Ошибка инициализации OpenAI: name 'API_KEY' is not defined
+2025-04-01 02:11:21,874 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 02:11:21,876 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 02:11:21,876 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 02:11:21,876 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 02:11:21,876 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 02:11:23,024 - __main__ - INFO - OpenAI клиент инициализирован
+2025-04-01 02:11:32,676 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 14
+2025-04-01 02:11:32,676 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 17
+2025-04-01 02:11:32,677 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 18
+2025-04-01 02:11:32,677 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 19
+2025-04-01 02:11:32,683 - dotenv.main - WARNING - python-dotenv could not parse statement starting at line 21
+2025-04-01 02:11:34,242 - __main__ - INFO - OpenAI клиент инициализирован

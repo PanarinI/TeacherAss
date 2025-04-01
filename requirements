@@ -2,7 +2,7 @@ streamlit
 python-dotenv
 python-docx
 openai
-boto3
+
 
 
 
