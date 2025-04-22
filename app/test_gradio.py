@@ -126,4 +126,4 @@ with gr.Blocks(title="Генератор уроков") as app:
     )
 
 if __name__ == "__main__":
-    app.launch(server_port=7860, show_api=False)
+    app.launch()
