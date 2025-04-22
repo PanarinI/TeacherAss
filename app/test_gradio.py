@@ -58,16 +58,16 @@ def generate_lesson_plan(
 
     # Параметры
     params = f"""
-                f"Создай подробный план урока:\n"
-            f"- Учебник: {textbook}\n"
-            f"- Предмет: {subject}\n"
-            f"- Методика: {methodology}\n"
-            f"- Длительность: {duration} мин\n"
-            f"- Домашнее задание: {'Да' if hw_required else 'Нет'}"
+            Создай подробный план урока:
+            - Учебник: {textbook}
+            - Предмет: {subject}
+            - Методика: {methodology}
+            - Длительность: {duration} мин
+            - Домашнее задание: {'Да' if hw_required else 'Нет'}
     """
 
     if image_url:
-        params.append({"type": "image_url", "image_url": {"url": image_url}})
+        params += f"\n- Изображение: {image_url}"
 
     # Инструмент file_search (при наличии)
     tools = None
@@ -85,7 +85,7 @@ def generate_lesson_plan(
     try:
         response = client.responses.create(
             instructions="Ты эксперт-педагог. Составь детальный план урока.",
-            input=input,
+            input=params,
             model="gpt-4o-mini",
             tools=tools,
             tool_choice=tool_choice,
