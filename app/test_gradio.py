@@ -66,8 +66,16 @@ def generate_lesson_plan(
             - Домашнее задание: {'Да' if hw_required else 'Нет'}
     """
 
+    user_message = {
+        "role": "user",
+        "content": [params]
+    }
     if image_url:
-        params += f"\n- Изображение: {image_url}"
+        user_message["content"].append({
+            "type": "image_url",
+            "image_url": {"url": image_url}
+        })
+
 
     # Инструмент file_search (при наличии)
     tools = None
