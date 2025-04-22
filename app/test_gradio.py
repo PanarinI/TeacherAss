@@ -66,12 +66,12 @@ def generate_lesson_plan(
             - Домашнее задание: {'Да' if hw_required else 'Нет'}
     """
 
-    user_message = {
+    param_vision = {
         "role": "user",
         "content": [params]
     }
     if image_url:
-        user_message["content"].append({
+        param_vision["content"].append({
             "type": "image_url",
             "image_url": {"url": image_url}
         })
@@ -93,7 +93,7 @@ def generate_lesson_plan(
     try:
         response = client.responses.create(
             instructions="Ты эксперт-педагог. Составь детальный план урока.",
-            input=params,
+            input=param_vision,
             model="gpt-4o-mini",
             tools=tools,
             tool_choice=tool_choice,
