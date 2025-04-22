@@ -57,16 +57,16 @@ def generate_lesson_plan(
             logging.error(f"Image error: {e}")
 
     # Формируем контент для запроса
-    content = [
-        {"type": "message", "content": (
-            f"Создай подробный план урока:\n"
+    input = f"""
+                f"Создай подробный план урока:\n"
             f"- Учебник: {textbook}\n"
             f"- Предмет: {subject}\n"
             f"- Методика: {methodology}\n"
             f"- Длительность: {duration} мин\n"
             f"- Домашнее задание: {'Да' if hw_required else 'Нет'}"
-        )}
-    ]
+"""
+
+
     if image_url:
         content.append({"type": "image_url", "image_url": {"url": image_url}})
 
@@ -86,7 +86,7 @@ def generate_lesson_plan(
     try:
         response = client.responses.create(
             instructions="Ты эксперт-педагог. Составь детальный план урока.",
-            input=content,
+            input=input,
             model="gpt-4o-mini",
             tools=tools,
             tool_choice=tool_choice,
