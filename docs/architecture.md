@@ -16,6 +16,15 @@
 Длительное хранение загруженных изображений не требуется, поэтому решение tmpfiles.org подходит.
 
 
+
+Upload Image → (if auto_detect) → Vision API → Update Textbook Field → Show Form
+            ↘ (else) → Show Form Immediately
+
+uploaded_image → upload_to_catbox() → public_url → передача в OpenAI
+
+
+
+
 Structured Outputs через response_format с JSON Schema , так как:
 
 
