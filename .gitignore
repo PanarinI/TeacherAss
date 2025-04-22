@@ -4,7 +4,7 @@
 
 #bot/config.py
 .env
-
+Materials/
 
 __pycache__/
 .idea/
