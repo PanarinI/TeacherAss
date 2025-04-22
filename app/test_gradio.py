@@ -56,19 +56,18 @@ def generate_lesson_plan(
         except Exception as e:
             logging.error(f"Image error: {e}")
 
-    # Формируем контент для запроса
-    input = f"""
+    # Параметры
+    params = f"""
                 f"Создай подробный план урока:\n"
             f"- Учебник: {textbook}\n"
             f"- Предмет: {subject}\n"
             f"- Методика: {methodology}\n"
             f"- Длительность: {duration} мин\n"
             f"- Домашнее задание: {'Да' if hw_required else 'Нет'}"
-"""
-
+    """
 
     if image_url:
-        content.append({"type": "image_url", "image_url": {"url": image_url}})
+        params.append({"type": "image_url", "image_url": {"url": image_url}})
 
     # Инструмент file_search (при наличии)
     tools = None
