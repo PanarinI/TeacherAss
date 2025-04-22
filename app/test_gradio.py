@@ -165,4 +165,4 @@ if __name__ == "__main__":
         )
     except Exception as e:
         print(f"Ошибка запуска: {e}")
-        demo.launch(server_port=0)  # Автовыбор порта
+        demo.launch()
