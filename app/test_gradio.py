@@ -58,7 +58,7 @@ def generate_lesson_plan(
 
     # Формируем контент для запроса
     content = [
-        {"type": "text", "text": (
+        {"type": "message", "content": (
             f"Создай подробный план урока:\n"
             f"- Учебник: {textbook}\n"
             f"- Предмет: {subject}\n"
