@@ -10,3 +10,8 @@ pinned: false
 ---
 
 Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
+
+
+git add .
+git commit -m "..."
+git push space main
