@@ -87,13 +87,21 @@ def generate_lesson_plan(
     if web_search:
         params_list.append("- **Используется web search**: да")
 
-    prompt_text = "Параметры занятия:\n" + "\n".join(params_list)
-
-    # Формируем input массив для vision + text
-    input_array = [
-        {"type": "input_text", "text": prompt_text},
-        {"type": "input_image", "image_url": image_url}
+    # Собираем входные данные согласно API
+    input_content = [
+        {
+            "type": "text",
+            "text": "Параметры занятия:\n" + "\n".join(params_list)
+        },
+        {
+            "type": "image_url",
+            "image_url": {
+                "url": image_url,
+                "detail": "high"  # или "auto" для автоматической оптимизации
+            }
+        }
     ]
+
 
     # Опции инструментов
     tools = []
@@ -107,13 +115,13 @@ def generate_lesson_plan(
     try:
         response = client.responses.create(
             instructions="Ты эксперт-педагог. Составь детальный план урока по заданным параметрам и изображению страницы учебника.",
-            input=input_array,
+            input=[{"role": "user", "content": input_content}],
             model="gpt-4o-mini",
             tools=tools or None,
             tool_choice=tool_choice,
-            include=["file_search_call.results"],
+            #include=["file_search_call.results"],
             max_output_tokens=2000,
-            reasoning={"effort": "medium"},
+            #reasoning={"effort": "medium"},
             stream=False
         )
         return response.output_text
