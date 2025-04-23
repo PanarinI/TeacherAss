@@ -90,15 +90,13 @@ def generate_lesson_plan(
     # Собираем входные данные согласно API
     input_content = [
         {
-            "type": "text",
+            "type": "input_text",
             "text": "Параметры занятия:\n" + "\n".join(params_list)
         },
         {
-            "type": "image_url",
-            "image_url": {
-                "url": image_url,
-                "detail": "high"  # или "auto" для автоматической оптимизации
-            }
+            "type": "input_image",
+            "image_url": image_url,
+            "detail": "high"  # или "auto" для автоматической оптимизации
         }
     ]
 
@@ -108,7 +106,11 @@ def generate_lesson_plan(
     tool_choice = None
     # web_search заглушка
     if web_search:
-        tools.append({"type": "web_search_preview", "search_context_size": "medium", "user_location": {"type": "approximate", "country": "RU"}})
+        tools.append({
+            "type": "web_search_preview",
+            "search_context_size": "medium",
+            "user_location": {"type": "approximate", "country": "RU"}
+        })
         tool_choice = {"type": "web_search_preview"}
 
     # Вызов LLM
