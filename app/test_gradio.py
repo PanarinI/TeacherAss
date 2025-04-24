@@ -147,6 +147,7 @@ def generate_lesson_plan(
 
 # --- Gradio UI ---
 with gr.Blocks(title="AI-Генератор уроков по фото учебника") as app:
+    advanced_settings_visible = gr.State(False)     # Добавляем состояние для видимости блока
     with gr.Row():
         with gr.Column(scale=1):  # левый блок
             image = gr.Image(label="Фото страницы учебника*", type="filepath")
@@ -154,9 +155,9 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
             # Блок 1: Учебник
             with gr.Column(variant="panel"):
                 gr.Markdown("### 📚 Учебник", elem_classes=["block-title"])
-                textbook = gr.Textbox(label="Название учебника*", placeholder="English File Beginner")
-                cefr = gr.Dropdown(label="CEFR-уровень", choices=["A1", "A2", "B1", "B2", "C1", "C2"],
-                                   value="A1", info="Выберите уровень")
+                textbook = gr.Textbox(label="Название учебника", placeholder="English File Beginner")
+                cefr = gr.Dropdown(label="CEFR-уровень", choices=["", "A1", "A2", "B1", "B2", "C1", "C2"],
+                                   value="", info="Выберите уровень")
 
             # Блок 2: Класс
             with gr.Column(variant="panel"):
@@ -212,14 +213,14 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
 
 
     # --- Логика интерфейса ---
-    def toggle_advanced():
-        return gr.update(visible=True)
+    def toggle_advanced_settings(visible):
+        return gr.update(visible=not visible), not visible
 
 
     advanced_btn.click(
-        fn=lambda v: not v,
-        inputs=advanced_block,
-        outputs=advanced_block
+        fn=toggle_advanced_settings,
+        inputs=[advanced_settings_visible],
+        outputs=[advanced_block, advanced_settings_visible]
     )
 
 
