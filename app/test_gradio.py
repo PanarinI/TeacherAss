@@ -138,7 +138,7 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
         with gr.Column(scale=1):  # левый блок
             image = gr.Image(label="Фото страницы учебника*", type="filepath")
             textbook = gr.Textbox(label="Учебник", placeholder="Название учебника, напр. English File Beginner")
-            cefr = gr.Dropdown(label="CEFR-уровень", choices=["A1", "A2", "B1", "B2", "C1", "C2"], value="",
+            cefr = gr.Dropdown(label="CEFR-уровень", choices=["", "A1", "A2", "B1", "B2", "C1", "C2"], value="",
                                info="необязательно")
             topic = gr.Textbox(label="Тема занятия", placeholder="напр. Daily routines", info="необязательно")
             goal = gr.Textbox(label="Цель", placeholder="напр. практика Present Simple в вопросах",
