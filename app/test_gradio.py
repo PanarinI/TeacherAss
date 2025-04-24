@@ -76,9 +76,9 @@ def generate_lesson_plan(
     # Собираем текстовый prompt
     params_list = [
         f"- **Учебник**: {textbook}",
-        f"- **CEFR-уровень**: {cefr or 'не задан'}",
-        f"- **Тема**: {topic or 'не указана'}",
-        f"- **Цель занятия**: {goal or 'не указана'}",
+        f"- **CEFR-уровень**: {cefr or 'определи по загруженной странице'}",
+        f"- **Тема**: {topic or 'определи по загруженной странице'}",
+        f"- **Цель занятия**: {goal or 'определи по загруженной странице'}",
         f"- **Формат**: {format_type} ({num_students} {'ребёнок' if num_students==1 else 'детей'})",
         f"- **Возраст**: {'взрослые' if adults else age}",
         f"- **Соответствие уровня учебника**: {['below','on-level','above','mixed'][level_match]}",
@@ -133,21 +133,27 @@ def generate_lesson_plan(
         raise gr.Error(f"Ошибка генерации: {e}")
 
 # --- Gradio UI ---
+# --- Gradio UI ---
 with gr.Blocks(title="AI-Генератор уроков по фото учебника") as app:
     with gr.Row():
         with gr.Column(scale=1):  # левый блок
             image = gr.Image(label="Фото страницы учебника*", type="filepath")
             textbook = gr.Textbox(label="Учебник*", placeholder="Название учебника, напр. English File Beginner")
-            cefr = gr.Dropdown(label="CEFR-уровень", choices=["A1","A2","B1","B2","C1","C2"], value="", info="необязательно")
-            topic = gr.Textbox(label="Тема", placeholder="напр. Daily routines", info="необязательно")
-            goal = gr.Textbox(label="Цель занятия", placeholder="напр. практика Present Simple в вопросах", info="необязательно")
-            format_type = gr.Radio(label="Формат занятия", choices=["Индивидуальное","Групповое"], value="Групповое")
-            num_students = gr.Slider(label="Количество детей*", minimum=2, maximum=40, value=4, step=1)
-            adults = gr.Checkbox(label="Взрослые", info="деактивирует поле возраст")
-            age = gr.Textbox(label="Возраст*", placeholder="напр. 10–11")
-            def toggle_age(adult_checked):
-                return gr.update(interactive=not adult_checked)
-            adults.change(fn=toggle_age, inputs=[adults], outputs=[age])
+            cefr = gr.Dropdown(label="CEFR-уровень", choices=["A1", "A2", "B1", "B2", "C1", "C2"], value="",
+                               info="необязательно")
+            topic = gr.Textbox(label="Тема занятия", placeholder="напр. Daily routines", info="необязательно")
+            goal = gr.Textbox(label="Цель", placeholder="напр. практика Present Simple в вопросах",
+                              info="необязательно")
+            format_type = gr.Radio(label="Формат занятия", choices=["Индивидуальное", "Групповое"], value="Групповое")
+
+            # Контейнер для элементов, зависящих от формата занятия
+            with gr.Group(visible=True) as group_settings:
+                num_students = gr.Slider(label="Количество детей*", minimum=2, maximum=40, value=10, step=1)
+
+            # Контейнер для элементов возраста
+            with gr.Group() as age_group:
+                adults = gr.Checkbox(label="Взрослые", info="деактивирует поле возраст")
+                age = gr.Textbox(label="Возраст*", placeholder="напр. 10–11", interactive=True)
 
             level_match = gr.Slider(label="Соответствие уровня учебника", minimum=0, maximum=3, step=1, value=1,
                                     info="0=below,1=on-level,2=above,3=mixed")
@@ -159,6 +165,24 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
         with gr.Column(scale=2):  # правый блок
             output = gr.Markdown("## План урока появится здесь...")
             download_btn = gr.DownloadButton(label="⬇️ Скачать .docx", visible=False)
+
+
+    # Функция для переключения видимости полей в зависимости от формата занятия
+    def toggle_format(selected_format):
+        if selected_format == "Индивидуальное":
+            return gr.update(visible=False)
+        else:
+            return gr.update(visible=True)
+
+
+    # Функция для переключения поля возраста
+    def toggle_age(adult_checked):
+        return gr.update(interactive=not adult_checked)
+
+
+    # Привязка событий
+    format_type.change(fn=toggle_format, inputs=format_type, outputs=group_settings)
+    adults.change(fn=toggle_age, inputs=adults, outputs=age)
 
     # Коллбек генерации
     def on_generate(image, textbook, cefr, topic, goal, format_type, num_students, age, adults, level_match, hw_required, web_search):
