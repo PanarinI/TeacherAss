@@ -43,20 +43,28 @@ def generate_docx(text: str) -> str:
     doc.save(path)
     return path
 
+
 # --- Основная функция генерации ---
 def generate_lesson_plan(
-    image_path: Optional[str],
-    textbook: str,
-    cefr: str,
-    topic: str,
-    goal: str,
-    format_type: str,
-    num_students: int,
-    age: str,
-    adults: bool,
-    level_match: int,
-    hw_required: bool,
-    web_search: bool
+        image_path: Optional[str],
+        textbook: str,
+        cefr: str,
+        topic: str,
+        goal: str,
+        format_type: str,
+        num_students: int,
+        age: str,
+        adults: bool,
+        level_match: int,
+        duration: int,
+        inventory: str,
+        methodology: str,
+        hw_required: bool,
+        web_search: bool,
+        repetition: bool,
+        application: bool,
+        analysis: bool,
+        creativity: bool
 ) -> str:
     # Валидация API клиента
     if not client:
@@ -79,11 +87,19 @@ def generate_lesson_plan(
         f"- **CEFR-уровень**: {'определи по загруженной странице' if cefr.strip() == '' else cefr}",
         f"- **Тема**: {topic or 'определи по загруженной странице'}",
         f"- **Цель занятия**: {goal or 'определи по загруженной странице'}",
-        f"- **Формат**: {format_type} ({num_students} {'ребёнок' if num_students==1 else 'детей'})",
+        f"- **Формат**: {format_type} ({num_students} {'ребёнок' if num_students == 1 else 'детей'})",
         f"- **Возраст**: {'взрослые' if adults else age}",
-        f"- **Соответствие класса уровню учебника**: {['below','on-level','above','mixed'][level_match]}",
+        f"- **Соответствие уровня**: {['below', 'on-level', 'above', 'mixed'][level_match]}",
+        f"- **Длительность**: {duration} минут",
+        f"- **Инвентарь**: {inventory if inventory else 'стандартный'}",
+        f"- **Методика**: {methodology}",
+        f"- **Таксономия**: {', '.join([level for level, checked in [('Повторение', repetition),
+                                                                     ('Применение', application),
+                                                                     ('Анализ', analysis),
+                                                                     ('Творчество', creativity)] if checked]) or 'не указано'}",
         f"- **Домашнее задание**: {'да' if hw_required else 'нет'}"
     ]
+
     if web_search:
         params_list.append("- **Используется web search**: да")
 
@@ -96,15 +112,13 @@ def generate_lesson_plan(
         {
             "type": "input_image",
             "image_url": image_url,
-            "detail": "high"  # или "auto" для автоматической оптимизации
+            "detail": "high"
         }
     ]
-
 
     # Опции инструментов
     tools = []
     tool_choice = None
-    # web_search заглушка
     if web_search:
         tools.append({
             "type": "web_search_preview",
@@ -121,9 +135,7 @@ def generate_lesson_plan(
             model="gpt-4o-mini",
             tools=tools or None,
             tool_choice=tool_choice,
-            #include=["file_search_call.results"],
             max_output_tokens=2000,
-            #reasoning={"effort": "medium"},
             stream=False
         )
         return response.output_text
@@ -132,7 +144,7 @@ def generate_lesson_plan(
         logging.error(f"Generation error: {e}")
         raise gr.Error(f"Ошибка генерации: {e}")
 
-# --- Gradio UI ---
+
 # --- Gradio UI ---
 with gr.Blocks(title="AI-Генератор уроков по фото учебника") as app:
     with gr.Row():
@@ -143,17 +155,17 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
             with gr.Column(variant="panel"):
                 gr.Markdown("### 📚 Учебник", elem_classes=["block-title"])
                 textbook = gr.Textbox(label="Название учебника*", placeholder="English File Beginner")
-                cefr = gr.Dropdown(label="CEFR-уровень", choices=["", "A1", "A2", "B1", "B2", "C1", "C2"],
-                                   value="", info="Необязательно")
+                cefr = gr.Dropdown(label="CEFR-уровень", choices=["A1", "A2", "B1", "B2", "C1", "C2"],
+                                   value="A1", info="Выберите уровень")
 
             # Блок 2: Класс
             with gr.Column(variant="panel"):
                 gr.Markdown("### 👥 Класс", elem_classes=["block-title"])
-                format_type = gr.Radio(label="Формат занятия", choices=["Индивидуальное", "Групповое"],
+                format_type = gr.Radio(label="Формат занятия*", choices=["Индивидуальное", "Групповое"],
                                        value="Групповое")
 
                 with gr.Group(visible=True) as group_settings:
-                    num_students = gr.Slider(label="Количество учеников*", minimum=2, maximum=40,
+                    num_students = gr.Slider(label="Количество учеников*", minimum=1, maximum=40,
                                              value=10, step=1, info="Для групповых занятий")
 
                 with gr.Group() as age_group:
@@ -166,28 +178,28 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
             # Блок 3: Занятие
             with gr.Column(variant="panel"):
                 gr.Markdown("### 📄 Занятие", elem_classes=["block-title"])
-                topic = gr.Textbox(label="Тема", placeholder="Daily routines", info="Необязательно")
-                goal = gr.Textbox(label="Цель", placeholder="Практика Present Simple", info="Необязательно")
-                duration = gr.Slider(label="Длительность (мин)", minimum=30, maximum=180, value=60, step=5)
-                inventory = gr.Textbox(label="Инвентарь", placeholder="Карточки, проектор...", info="Необязательно")
+                topic = gr.Textbox(label="Тема", placeholder="Daily routines")
+                goal = gr.Textbox(label="Цель", placeholder="Практика Present Simple")
+                duration = gr.Slider(label="Длительность (мин)*", minimum=30, maximum=180, value=60, step=5)
+                inventory = gr.Textbox(label="Инвентарь", placeholder="Карточки, проектор...")
 
             # Блок 4: Методика
             with gr.Column(variant="panel"):
                 gr.Markdown("### 🎓 Методика", elem_classes=["block-title"])
-                methodology = gr.Dropdown(label="Методика преподавания",
+                methodology = gr.Dropdown(label="Методика преподавания*",
                                           choices=["PPP (Presentation-Practice-Production)",
                                                    "TTT (Test-Teach-Test)"],
-                                          value="PPP")
+                                          value="PPP (Presentation-Practice-Production)")
 
                 advanced_btn = gr.Button(value="➕ Продвинутые настройки", size="sm")
 
                 # Блок продвинутых настроек, изначально скрыт
                 with gr.Column(visible=False) as advanced_block:
                     gr.Markdown("**💡 Уровни задач (таксономия):**")
-                    уровень_повторение = gr.Checkbox(label="Повторение")
-                    уровень_применение = gr.Checkbox(label="Применение")
-                    уровень_анализ = gr.Checkbox(label="Анализ")
-                    уровень_творчество = gr.Checkbox(label="Творчество")
+                    repetition = gr.Checkbox(label="Повторение")
+                    application = gr.Checkbox(label="Применение")
+                    analysis = gr.Checkbox(label="Анализ")
+                    creativity = gr.Checkbox(label="Творчество")
 
                 hw_required = gr.Checkbox(label="Домашнее задание")
                 web_search = gr.Checkbox(label="Доп. материалы из интернета")
@@ -200,12 +212,12 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
 
 
     # --- Логика интерфейса ---
-    def toggle_advanced(visible):
-        return gr.update(visible=not visible)
+    def toggle_advanced():
+        return gr.update(visible=True)
 
 
     advanced_btn.click(
-        fn=toggle_advanced,
+        fn=lambda v: not v,
         inputs=advanced_block,
         outputs=advanced_block
     )
@@ -213,10 +225,10 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
 
     # Функция для переключения видимости полей в зависимости от формата занятия
     def toggle_format(selected_format):
-        if selected_format == "Индивидуальное":
-            return gr.update(visible=False)
-        else:
-            return gr.update(visible=True)
+        return gr.update(visible=selected_format == "Групповое")
+
+
+    format_type.change(fn=toggle_format, inputs=format_type, outputs=group_settings)
 
 
     # Функция для переключения поля возраста
@@ -224,32 +236,38 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
         return gr.update(interactive=not adult_checked)
 
 
-    # Привязка событий
-    format_type.change(fn=toggle_format, inputs=format_type, outputs=group_settings)
     adults.change(fn=toggle_age, inputs=adults, outputs=age)
 
+
     # Коллбек генерации
-    def get_inputs():
-        """Централизованное место объявления всех inputs"""
-        return [
-            image, textbook, cefr, topic, goal, format_type,
-            num_students, age, adults, level_match, hw_required, web_search
-        ]
-
-
-    def on_generate(*args):
+    def on_generate(
+            image, textbook, cefr, topic, goal, format_type, num_students,
+            age, adults, level_match, duration, inventory, methodology,
+            hw_required, web_search, repetition, application, analysis, creativity
+    ):
         # Проверка обязательных полей
-        if not args[0] or (not args[7] and not args[8]):  # image, age, adults
-            return gr.update(value="❗ Заполните обязательные поля - фото страницы учебника, количество учеников, возраст "), gr.update(visible=False)
+        if not image or (not adults and not age):
+            return gr.update(value="❗ Заполните обязательные поля (отмечены *)"), gr.update(visible=False)
 
-        text = generate_lesson_plan(*args)
+        text = generate_lesson_plan(
+            image, textbook, cefr, topic, goal, format_type, num_students,
+            age, adults, level_match, duration, inventory, methodology,
+            hw_required, web_search, repetition, application, analysis, creativity
+        )
+
         docx_path = generate_docx(text) if not text.startswith("❗") else None
         return gr.update(value=text), gr.update(visible=bool(docx_path), value=docx_path)
 
 
-    # Использование:
-    inputs = get_inputs()
-    btn.click(fn=on_generate, inputs=inputs, outputs=[output, download_btn])
+    btn.click(
+        fn=on_generate,
+        inputs=[
+            image, textbook, cefr, topic, goal, format_type, num_students,
+            age, adults, level_match, duration, inventory, methodology,
+            hw_required, web_search, repetition, application, analysis, creativity
+        ],
+        outputs=[output, download_btn]
+    )
 
 if __name__ == "__main__":
     app.launch()
