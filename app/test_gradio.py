@@ -93,10 +93,10 @@ def generate_lesson_plan(
         f"- **Длительность**: {duration} минут",
         f"- **Инвентарь**: {inventory if inventory else 'стандартный'}",
         f"- **Методика**: {methodology}",
-        f"- **Таксономия**: {', '.join([level for level, checked in [('Повторение', repetition),
-                                                                     ('Применение', application),
-                                                                     ('Анализ', analysis),
-                                                                     ('Творчество', creativity)] if checked]) or 'не указано'}",
+        # f"- **Таксономия**: {', '.join([level for level, checked in [('Повторение', repetition),
+        #                                                              ('Применение', application),
+        #                                                              ('Анализ', analysis),
+        #                                                              ('Творчество', creativity)] if checked]) or 'не указано'}",
         f"- **Домашнее задание**: {'да' if hw_required else 'нет'}"
     ]
 
