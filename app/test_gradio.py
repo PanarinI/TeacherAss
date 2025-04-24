@@ -76,7 +76,7 @@ def generate_lesson_plan(
     # Собираем текстовый prompt
     params_list = [
         f"- **Учебник**: {textbook}",
-        f"- **CEFR-уровень**: {cefr or 'определи по загруженной странице'}",
+        f"- **CEFR-уровень**: {'определи по загруженной странице' if not cefr else cefr}
         f"- **Тема**: {topic or 'определи по загруженной странице'}",
         f"- **Цель занятия**: {goal or 'определи по загруженной странице'}",
         f"- **Формат**: {format_type} ({num_students} {'ребёнок' if num_students==1 else 'детей'})",
@@ -138,7 +138,7 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
         with gr.Column(scale=1):  # левый блок
             image = gr.Image(label="Фото страницы учебника*", type="filepath")
             textbook = gr.Textbox(label="Учебник", placeholder="Название учебника, напр. English File Beginner")
-            cefr = gr.Dropdown(label="CEFR-уровень", choices=["A1", "A2", "B1", "B2", "C1", "C2"], value="A2",
+            cefr = gr.Dropdown(label="CEFR-уровень", choices=["A1", "A2", "B1", "B2", "C1", "C2"], value="",
                                info="необязательно")
             topic = gr.Textbox(label="Тема занятия", placeholder="напр. Daily routines", info="необязательно")
             goal = gr.Textbox(label="Цель", placeholder="напр. практика Present Simple в вопросах",
@@ -184,21 +184,27 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
     adults.change(fn=toggle_age, inputs=adults, outputs=age)
 
     # Коллбек генерации
-    def on_generate(image, textbook, cefr, topic, goal, format_type, num_students, age, adults, level_match, hw_required, web_search):
-        # проверка
-        if not image or (not age and not adults):
-            return gr.update(value="❗ Заполните обязательные поля: фото страницы учебника, возраст"), gr.update(visible=False)
-        text = generate_lesson_plan(image, textbook, cefr, topic, goal, format_type, num_students, age, adults, level_match, hw_required, web_search)
-        docx_path = None
-        if not text.startswith("❗"):
-            docx_path = generate_docx(text)
+    def get_inputs():
+        """Централизованное место объявления всех inputs"""
+        return [
+            image, textbook, cefr, topic, goal, format_type,
+            num_students, age, adults, level_match, hw_required, web_search
+        ]
+
+
+    def on_generate(*args):
+        # Проверка обязательных полей
+        if not args[0] or (not args[7] and not args[8]):  # image, age, adults
+            return gr.update(value="❗ Заполните обязательные поля..."), gr.update(visible=False)
+
+        text = generate_lesson_plan(*args)
+        docx_path = generate_docx(text) if not text.startswith("❗") else None
         return gr.update(value=text), gr.update(visible=bool(docx_path), value=docx_path)
 
-    btn.click(
-        fn=on_generate,
-        inputs=[image, textbook, cefr, topic, goal, format_type, num_students, age, adults, level_match, hw_required, web_search],
-        outputs=[output, download_btn]
-    )
+
+    # Использование:
+    inputs = get_inputs()
+    btn.click(fn=on_generate, inputs=inputs, outputs=[output, download_btn])
 
 if __name__ == "__main__":
     app.launch()
