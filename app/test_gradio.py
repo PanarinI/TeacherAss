@@ -81,7 +81,7 @@ def generate_lesson_plan(
         f"- **Цель занятия**: {goal or 'определи по загруженной странице'}",
         f"- **Формат**: {format_type} ({num_students} {'ребёнок' if num_students==1 else 'детей'})",
         f"- **Возраст**: {'взрослые' if adults else age}",
-        f"- **Соответствие уровня учебника**: {['below','on-level','above','mixed'][level_match]}",
+        f"- **Соответствие класса уровню учебника**: {['below','on-level','above','mixed'][level_match]}",
         f"- **Домашнее задание**: {'да' if hw_required else 'нет'}"
     ]
     if web_search:
@@ -133,13 +133,12 @@ def generate_lesson_plan(
         raise gr.Error(f"Ошибка генерации: {e}")
 
 # --- Gradio UI ---
-# --- Gradio UI ---
 with gr.Blocks(title="AI-Генератор уроков по фото учебника") as app:
     with gr.Row():
         with gr.Column(scale=1):  # левый блок
             image = gr.Image(label="Фото страницы учебника*", type="filepath")
-            textbook = gr.Textbox(label="Учебник*", placeholder="Название учебника, напр. English File Beginner")
-            cefr = gr.Dropdown(label="CEFR-уровень", choices=["A1", "A2", "B1", "B2", "C1", "C2"], value="",
+            textbook = gr.Textbox(label="Учебник", placeholder="Название учебника, напр. English File Beginner")
+            cefr = gr.Dropdown(label="CEFR-уровень", choices=["A1", "A2", "B1", "B2", "C1", "C2"], value="A2",
                                info="необязательно")
             topic = gr.Textbox(label="Тема занятия", placeholder="напр. Daily routines", info="необязательно")
             goal = gr.Textbox(label="Цель", placeholder="напр. практика Present Simple в вопросах",
@@ -152,8 +151,8 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
 
             # Контейнер для элементов возраста
             with gr.Group() as age_group:
-                adults = gr.Checkbox(label="Взрослые", info="деактивирует поле возраст")
                 age = gr.Textbox(label="Возраст*", placeholder="напр. 10–11", interactive=True)
+                adults = gr.Checkbox(label="Взрослые")
 
             level_match = gr.Slider(label="Соответствие уровня учебника", minimum=0, maximum=3, step=1, value=1,
                                     info="0=below,1=on-level,2=above,3=mixed")
@@ -187,8 +186,8 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
     # Коллбек генерации
     def on_generate(image, textbook, cefr, topic, goal, format_type, num_students, age, adults, level_match, hw_required, web_search):
         # проверка
-        if not image or not textbook or (not age and not adults):
-            return gr.update(value="❗ Заполните обязательные поля: фото, учебник, возраст или 'взрослые'"), gr.update(visible=False)
+        if not image or (not age and not adults):
+            return gr.update(value="❗ Заполните обязательные поля: фото страницы учебника, возраст"), gr.update(visible=False)
         text = generate_lesson_plan(image, textbook, cefr, topic, goal, format_type, num_students, age, adults, level_match, hw_required, web_search)
         docx_path = None
         if not text.startswith("❗"):
