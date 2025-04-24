@@ -76,7 +76,7 @@ def generate_lesson_plan(
     # Собираем текстовый prompt
     params_list = [
         f"- **Учебник**: {textbook}",
-        f"- **CEFR-уровень**: {'определи по загруженной странице' if not cefr else cefr}",
+        f"- **CEFR-уровень**: {'определи по загруженной странице' if cefr.strip() == '' else cefr}",
         f"- **Тема**: {topic or 'определи по загруженной странице'}",
         f"- **Цель занятия**: {goal or 'определи по загруженной странице'}",
         f"- **Формат**: {format_type} ({num_students} {'ребёнок' if num_students==1 else 'детей'})",
