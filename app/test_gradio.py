@@ -133,37 +133,82 @@ def generate_lesson_plan(
         raise gr.Error(f"Ошибка генерации: {e}")
 
 # --- Gradio UI ---
+# --- Gradio UI ---
 with gr.Blocks(title="AI-Генератор уроков по фото учебника") as app:
     with gr.Row():
         with gr.Column(scale=1):  # левый блок
             image = gr.Image(label="Фото страницы учебника*", type="filepath")
-            textbook = gr.Textbox(label="Учебник", placeholder="Название учебника, напр. English File Beginner")
-            cefr = gr.Dropdown(label="CEFR-уровень", choices=["", "A1", "A2", "B1", "B2", "C1", "C2"], value="",
-                               info="необязательно")
-            topic = gr.Textbox(label="Тема занятия", placeholder="напр. Daily routines", info="необязательно")
-            goal = gr.Textbox(label="Цель", placeholder="напр. практика Present Simple в вопросах",
-                              info="необязательно")
-            format_type = gr.Radio(label="Формат занятия", choices=["Индивидуальное", "Групповое"], value="Групповое")
 
-            # Контейнер для элементов, зависящих от формата занятия
-            with gr.Group(visible=True) as group_settings:
-                num_students = gr.Slider(label="Количество детей*", minimum=2, maximum=40, value=10, step=1)
+            # Блок 1: Учебник
+            with gr.Column(variant="panel"):
+                gr.Markdown("### 📚 Учебник", elem_classes=["block-title"])
+                textbook = gr.Textbox(label="Название учебника*", placeholder="English File Beginner")
+                cefr = gr.Dropdown(label="CEFR-уровень", choices=["", "A1", "A2", "B1", "B2", "C1", "C2"],
+                                   value="", info="Необязательно")
 
-            # Контейнер для элементов возраста
-            with gr.Group() as age_group:
-                age = gr.Textbox(label="Возраст*", placeholder="напр. 10–11", interactive=True)
-                adults = gr.Checkbox(label="Взрослые")
+            # Блок 2: Класс
+            with gr.Column(variant="panel"):
+                gr.Markdown("### 👥 Класс", elem_classes=["block-title"])
+                format_type = gr.Radio(label="Формат занятия", choices=["Индивидуальное", "Групповое"],
+                                       value="Групповое")
 
-            level_match = gr.Slider(label="Соответствие уровня учебника", minimum=0, maximum=3, step=1, value=1,
-                                    info="0=below,1=on-level,2=above,3=mixed")
+                with gr.Group(visible=True) as group_settings:
+                    num_students = gr.Slider(label="Количество учеников*", minimum=2, maximum=40,
+                                             value=10, step=1, info="Для групповых занятий")
 
-            hw_required = gr.Checkbox(label="Домашнее задание")
-            web_search = gr.Checkbox(label="Доп. материалы из интернета")
-            btn = gr.Button("Сгенерировать план", variant="primary")
+                with gr.Group() as age_group:
+                    adults = gr.Checkbox(label="Взрослые")
+                    age = gr.Textbox(label="Возраст*", placeholder="10–11", interactive=True)
+
+                level_match = gr.Slider(label="Соответствие уровня учебника", minimum=0, maximum=3,
+                                        step=1, value=1, info="0=ниже,1=соответствует,2=выше,3=смешанный")
+
+            # Блок 3: Занятие
+            with gr.Column(variant="panel"):
+                gr.Markdown("### 📄 Занятие", elem_classes=["block-title"])
+                topic = gr.Textbox(label="Тема", placeholder="Daily routines", info="Необязательно")
+                goal = gr.Textbox(label="Цель", placeholder="Практика Present Simple", info="Необязательно")
+                duration = gr.Slider(label="Длительность (мин)", minimum=30, maximum=180, value=60, step=5)
+                inventory = gr.Textbox(label="Инвентарь", placeholder="Карточки, проектор...", info="Необязательно")
+
+            # Блок 4: Методика
+            with gr.Column(variant="panel"):
+                gr.Markdown("### 🎓 Методика", elem_classes=["block-title"])
+                methodology = gr.Dropdown(label="Методика преподавания",
+                                          choices=["PPP (Presentation-Practice-Production)",
+                                                   "TTT (Test-Teach-Test)"],
+                                          value="PPP")
+
+                advanced_btn = gr.Button(value="➕ Продвинутые настройки", size="sm")
+
+                # Блок продвинутых настроек, изначально скрыт
+                with gr.Column(visible=False) as advanced_block:
+                    gr.Markdown("**💡 Уровни задач (таксономия):**")
+                    уровень_повторение = gr.Checkbox(label="Повторение")
+                    уровень_применение = gr.Checkbox(label="Применение")
+                    уровень_анализ = gr.Checkbox(label="Анализ")
+                    уровень_творчество = gr.Checkbox(label="Творчество")
+
+                hw_required = gr.Checkbox(label="Домашнее задание")
+                web_search = gr.Checkbox(label="Доп. материалы из интернета")
+
+            btn = gr.Button("Сгенерировать план", variant="primary", size="lg")
 
         with gr.Column(scale=2):  # правый блок
             output = gr.Markdown("## План урока появится здесь...")
             download_btn = gr.DownloadButton(label="⬇️ Скачать .docx", visible=False)
+
+
+    # --- Логика интерфейса ---
+    def toggle_advanced(visible):
+        return gr.update(visible=not visible)
+
+
+    advanced_btn.click(
+        fn=toggle_advanced,
+        inputs=advanced_block,
+        outputs=advanced_block
+    )
 
 
     # Функция для переключения видимости полей в зависимости от формата занятия
@@ -195,7 +240,7 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
     def on_generate(*args):
         # Проверка обязательных полей
         if not args[0] or (not args[7] and not args[8]):  # image, age, adults
-            return gr.update(value="❗ Заполните обязательные поля..."), gr.update(visible=False)
+            return gr.update(value="❗ Заполните обязательные поля - фото страницы учебника, количество учеников, возраст "), gr.update(visible=False)
 
         text = generate_lesson_plan(*args)
         docx_path = generate_docx(text) if not text.startswith("❗") else None
