@@ -96,7 +96,7 @@ def generate_lesson_plan(
         # f"- **Таксономия**: {', '.join([level for level, checked in [('Повторение', repetition),
         #                                                              ('Применение', application),
         #                                                              ('Анализ', analysis),
-        #                                                              ('Творчество', creativity)] if checked]) or 'не указано'}",
+        #                                                              ('Творчество', creativity)] if checked]) or 'не указано'}"
         f"- **Домашнее задание**: {'да' if hw_required else 'нет'}"
     ]
 
