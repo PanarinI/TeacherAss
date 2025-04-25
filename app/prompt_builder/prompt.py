@@ -1,5 +1,5 @@
 METHODOLOGY_TIPS = {
-    "PPP": """
+    "PPP (Presentation-Practice-Production)": """
     [МЕТОДИКА PPP]
     Обязательные этапы:
     1. Presentation (5-10 мин): Покажи пример через диалог/текст
@@ -8,7 +8,7 @@ METHODOLOGY_TIPS = {
     Пример: стр. 45 учебника → упражнение 3A → написание диалога
     """,
 
-    "TTT": """
+    "TTT (Test-Teach-Test)": """
     [МЕТОДИКА TTT]
     Обязательные этапы:
     1. Test (10 мин): Диагностический тест
@@ -23,7 +23,7 @@ def build_prompt(params):
     base_prompt = f"""
     Создай план урока по этим данным:
     - Страница из учебника, которую ты видишь
-    - Учебник: {params['textbook']} or 
+    - Учебник: {params['textbook']} 
     - Уровень учебника по CEFR: {params['cefr']}
     - Тема занятия: {params['topic']}
     - Цель занятия: {params['goal']}
