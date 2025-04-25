@@ -44,27 +44,6 @@ def generate_docx(text: str) -> str:
     doc.save(path)
     return path
 
-all_inputs = [
-    image,  # Gradio компонент, соответствует image_path в функциях
-    textbook,
-    cefr,
-    topic,
-    goal,
-    format_type,
-    num_students,
-    age,
-    adults,
-    level_match,
-    duration,
-    inventory,
-    methodology,
-    hw_required,
-    web_search,
-    repetition,
-    application,
-    analysis,
-    creativity
-]
 # --- Основная функция генерации ---
 def generate_lesson_plan(
         image_path: Optional[str],
@@ -252,6 +231,27 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
         return gr.update(interactive=not adult_checked)
     adults.change(fn=toggle_age, inputs=adults, outputs=age)
 
+    all_inputs = [
+        image,  # Gradio компонент, соответствует image_path в функциях
+        textbook,
+        cefr,
+        topic,
+        goal,
+        format_type,
+        num_students,
+        age,
+        adults,
+        level_match,
+        duration,
+        inventory,
+        methodology,
+        hw_required,
+        web_search,
+        repetition,
+        application,
+        analysis,
+        creativity
+    ]
 
     # Коллбек генерации
     def on_generate(
