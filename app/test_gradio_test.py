@@ -128,7 +128,7 @@ def generate_lesson_plan(
     # Вызов LLM
     try:
         response = client.responses.create(
-            input=input_content,
+            input=[{"role": "user", "content": input_content}],
             model="gpt-4o-mini",
             tools=tools or None,
             tool_choice=tool_choice,
