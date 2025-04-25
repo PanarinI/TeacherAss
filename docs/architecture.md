@@ -28,6 +28,17 @@
 
 
 
+Собираем все параметры в all_inputs (это список Gradio-компонентов).
+
+Передаём их в on_generate через inputs=all_inputs.
+
+Внутри on_generate используем locals(), чтобы автоматически получить словарь всех аргументов.
+
+Распаковываем их в generate_lesson_plan(**kwargs).
+
+
+
+
 
 
 

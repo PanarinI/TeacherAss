@@ -45,7 +45,27 @@ def generate_docx(text: str) -> str:
     doc.save(path)
     return path
 
-
+all_inputs = [
+    image,  # Gradio компонент, соответствует image_path в функциях
+    textbook,
+    cefr,
+    topic,
+    goal,
+    format_type,
+    num_students,
+    age,
+    adults,
+    level_match,
+    duration,
+    inventory,
+    methodology,
+    hw_required,
+    web_search,
+    repetition,
+    application,
+    analysis,
+    creativity
+]
 # --- Основная функция генерации ---
 def generate_lesson_plan(
         image_path: Optional[str],
@@ -61,7 +81,6 @@ def generate_lesson_plan(
         duration: int,
         inventory: str,
         methodology: str,
-        extra_info: str,
         hw_required: bool,
         web_search: bool,
         repetition: bool,
@@ -69,6 +88,7 @@ def generate_lesson_plan(
         analysis: bool,
         creativity: bool
 ) -> str:
+
     # Валидация API клиента
     if not client:
         raise gr.Error("API ключ не настроен")
@@ -85,33 +105,29 @@ def generate_lesson_plan(
         raise gr.Error("Не удалось загрузить изображение")
 
     # Собираем текстовый prompt
-    params_list = [
-        f"- **Учебник**: {textbook}",
-        f"- **CEFR-уровень**: {'определи по загруженной странице' if cefr.strip() == '' else cefr}",
-        f"- **Тема**: {topic or 'определи по загруженной странице'}",
-        f"- **Цель занятия**: {goal or 'определи по загруженной странице'}",
-        f"- **Формат**: {format_type} ({num_students} {'ребёнок' if num_students == 1 else 'детей'})",
-        f"- **Возраст**: {'взрослые' if adults else age}",
-        f"- **Соответствие уровня**: {['below', 'on-level', 'above', 'mixed'][level_match]}",
-        f"- **Длительность**: {duration} минут",
-        f"- **Инвентарь**: {inventory if inventory else 'стандартный'}",
-        f"- **Методика**: {methodology}",
-        # f"- **Дополнительная информация**: {extra_info}"
-        # f"- **Таксономия**: {', '.join([level for level, checked in [('Повторение', repetition),
-        #                                                              ('Применение', application),
-        #                                                              ('Анализ', analysis),
-        #                                                              ('Творчество', creativity)] if checked]) or 'не указано'}"
-        f"- **Домашнее задание**: {'да' if hw_required else 'нет'}"
-    ]
+    lesson_params = {
+        'methodology': methodology,
+        'Учебник': textbook,
+        'Уровень учебника по CEFR': cefr,
+        'Тема': topic,
+        'Цель': goal,
+        'Количество учеников': num_students,
+        'Возраст': 'Взрослые' if adults else age,
+        'level_match': ['below', 'on-level', 'above', 'mixed'][level_match],
+        'duration': duration,
+        'inventory': inventory,
+        'hw_required': hw_required
+    }
 
-    if web_search:
-        params_list.append("- **Используется web search**: да")
+    # Получаем готовый промпт
+    from app.prompt_builder.prompt import build_prompt
+    full_prompt = build_prompt(lesson_params)
 
     # Собираем входные данные согласно API
     input_content = [
         {
             "type": "input_text",
-            "text": "Параметры занятия:\n" + "\n".join(params_list)
+            "text": full_prompt
         },
         {
             "type": "input_image",
@@ -134,8 +150,7 @@ def generate_lesson_plan(
     # Вызов LLM
     try:
         response = client.responses.create(
-            instructions=app.instructions.INSTRUCTIONS_1,
-            input=[{"role": "user", "content": input_content}],
+            input=input_content,
             model="gpt-4o-mini",
             tools=tools or None,
             tool_choice=tool_choice,
@@ -216,6 +231,7 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
             download_btn = gr.DownloadButton(label="⬇️ Скачать .docx", visible=False)
 
 
+
     # --- Логика интерфейса ---
     def toggle_advanced_settings(visible):
         return gr.update(visible=not visible), not visible
@@ -227,50 +243,56 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
         outputs=[advanced_block, advanced_settings_visible]
     )
 
-
     # Функция для переключения видимости полей в зависимости от формата занятия
     def toggle_format(selected_format):
         return gr.update(visible=selected_format == "Групповое")
-
-
     format_type.change(fn=toggle_format, inputs=format_type, outputs=group_settings)
-
 
     # Функция для переключения поля возраста
     def toggle_age(adult_checked):
         return gr.update(interactive=not adult_checked)
-
-
     adults.change(fn=toggle_age, inputs=adults, outputs=age)
 
 
     # Коллбек генерации
     def on_generate(
-            image, textbook, cefr, topic, goal, format_type, num_students,
-            age, adults, level_match, duration, inventory, methodology,
-            hw_required, web_search, repetition, application, analysis, creativity
+            image_path: Optional[str],  # Переименовано из image
+            textbook: str,
+            cefr: str,
+            topic: str,
+            goal: str,
+            format_type: str,
+            num_students: int,
+            age: str,
+            adults: bool,
+            level_match: int,
+            duration: int,
+            inventory: str,
+            methodology: str,
+            hw_required: bool,
+            web_search: bool,
+            repetition: bool,
+            application: bool,
+            analysis: bool,
+            creativity: bool
     ):
         # Проверка обязательных полей
-        if not image or (not adults and not age):
+        if not image_path or (not adults and not age):
             return gr.update(value="❗ Заполните обязательные поля (отмечены *)"), gr.update(visible=False)
 
-        text = generate_lesson_plan(
-            image, textbook, cefr, topic, goal, format_type, num_students,
-            age, adults, level_match, duration, inventory, methodology,
-            hw_required, web_search, repetition, application, analysis, creativity
-        )
+        # Собираем все аргументы в словарь
+        kwargs = locals()
 
+        # Генерация плана
+        text = generate_lesson_plan(**kwargs)
+
+        # Создание DOCX
         docx_path = generate_docx(text) if not text.startswith("❗") else None
         return gr.update(value=text), gr.update(visible=bool(docx_path), value=docx_path)
 
-
     btn.click(
         fn=on_generate,
-        inputs=[
-            image, textbook, cefr, topic, goal, format_type, num_students,
-            age, adults, level_match, duration, inventory, methodology,
-            hw_required, web_search, repetition, application, analysis, creativity
-        ],
+        inputs=all_inputs,
         outputs=[output, download_btn]
     )
 
