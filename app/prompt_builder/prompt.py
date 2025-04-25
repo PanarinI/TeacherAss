@@ -1,3 +1,29 @@
+def build_prompt(params):
+
+    base_prompt = f"""
+    Ты — AI-ассистент для учителей английского, составляющий грамотные и интересные планы занятий по материалам предоставленной тебе страницы учебника и параметрам от учителя.
+    Создать структурированный план урока, строго соответствующий материалам на загруженной странице учебника.
+    Параметры занятия:
+    - Учебник: {params.get('textbook') or "определи сам по загруженной странице. Если определить не можешь - пропускай"}
+    - Уровень учебника по CEFR: {params.get('cefr') or "определи по сложности текста/упражнений"} 
+    - Тема занятия: {params.get('topic') or "определи сам по загруженной странице"}
+    - Цель (что ученики(и) должны уметь делать к концу занятия): {params.get('goal') or "определи сам"}
+    - Продолжительность: {params['duration']} мин
+    - Количество учеников: {params['num_students']} чел
+    - Возраст: {params['age']} лет
+    - Методология занятия: {params['methodology']}
+    - Дополнительная информация от учителя: {params.get('extra_info') or "не указано"}
+    - Оборудование/инвентарь: {params.get('inventory') or "предложи сам"}
+    - Домашнее задание: {params['hw_required']} 
+
+    Особые указания:
+    """
+
+    # Добавляем советы по методике
+    methodology_advice = METHODOLOGY_TIPS.get(params['methodology'], "")
+
+    return base_prompt + methodology_advice
+
 METHODOLOGY_TIPS = {
     "PPP (Presentation-Practice-Production)": """
     [МЕТОДИКА PPP]
@@ -17,29 +43,3 @@ METHODOLOGY_TIPS = {
     Пример: предтест на времена → объяснение Past Perfect → кейсы
     """
 }
-
-
-def build_prompt(params):
-    # Функция для безопасного получения параметра
-    def get_param(param_name):
-        value = params.get(param_name, '').strip()  # Получаем значение и убираем пробелы
-        return value if value else "определи самостоятельно"
-
-    base_prompt = f"""
-    Создай план урока по этим данным:
-    - Страница из учебника, которую ты видишь
-    - Учебник: {get_param('textbook')}
-    - Уровень учебника по CEFR: {get_param('cefr')}
-    - Тема занятия: {get_param('topic')}
-    - Цель занятия: {get_param('goal')}
-    - Продолжительность: {params['duration']} мин
-    - Кол-во учащихся: {params['num_students']} чел, возраст: {get_param('age')}
-    - Методика: {params['methodology']}
-
-    Особые указания:
-    """
-
-    # Добавляем советы по методике
-    methodology_advice = METHODOLOGY_TIPS.get(params['methodology'], "")
-
-    return base_prompt + methodology_advice

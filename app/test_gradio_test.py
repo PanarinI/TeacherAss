@@ -59,6 +59,7 @@ def generate_lesson_plan(
         duration: int,
         inventory: str,
         methodology: str,
+        extra_info: str,
         hw_required: bool,
         web_search: bool,
         repetition: bool,
@@ -94,7 +95,8 @@ def generate_lesson_plan(
         'level_match': ['below', 'on-level', 'above', 'mixed'][level_match],
         'duration': duration,
         'inventory': inventory,
-        'hw_required': hw_required
+        'hw_required': "да" if hw_required else "не требуется",
+        'extra_info': extra_info
     }
 
     # Получаем готовый промпт
@@ -180,6 +182,7 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
                 goal = gr.Textbox(label="Цель", placeholder="Практика Present Simple")
                 duration = gr.Slider(label="Длительность (мин)*", minimum=30, maximum=180, value=60, step=5)
                 inventory = gr.Textbox(label="Инвентарь", placeholder="Карточки, проектор...")
+                extra_info = gr.Textbox(label="Допонительная информация", placeholder="Класс после физкультуры, взвинченный")
 
             # Блок 4: Методика
             with gr.Column(variant="panel"):
@@ -244,6 +247,7 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
         level_match,
         duration,
         inventory,
+        extra_info,
         methodology,
         hw_required,
         web_search,
@@ -268,6 +272,7 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
             duration: int,
             inventory: str,
             methodology: str,
+            extra_info: str,
             hw_required: bool,
             web_search: bool,
             repetition: bool,
