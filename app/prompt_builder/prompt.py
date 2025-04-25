@@ -22,7 +22,7 @@ METHODOLOGY_TIPS = {
 def build_prompt(params):
     base_prompt = f"""
     СОЗДАЙ ПЛАН УРОКА по этим данным:
-    - Учебник: {params['textbook']}
+    - Учебник: {params['textbook']} or 
     - Страница: {params['image_url']} (все задания с этой страницы!)
     - Уровень: {params['cefr']}
     - Тема: {params['topic']}

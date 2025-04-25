@@ -9,7 +9,6 @@ from docx import Document
 import requests
 from typing import Optional
 
-import app.instructions
 
 # --- Настройка ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -106,16 +105,16 @@ def generate_lesson_plan(
 
     # Собираем текстовый prompt
     lesson_params = {
-        'methodology': methodology,
+        'Методика': methodology,
         'Учебник': textbook,
         'Уровень учебника по CEFR': cefr,
         'Тема': topic,
         'Цель': goal,
         'Количество учеников': num_students,
         'Возраст': 'Взрослые' if adults else age,
-        'level_match': ['below', 'on-level', 'above', 'mixed'][level_match],
-        'duration': duration,
-        'inventory': inventory,
+        'Уровень класса относительно учебника': ['below', 'on-level', 'above', 'mixed'][level_match],
+        'Длительность занятия': duration,
+        'Оборудование и инвентарь': inventory,
         'hw_required': hw_required
     }
 
