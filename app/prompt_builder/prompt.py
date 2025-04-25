@@ -20,15 +20,20 @@ METHODOLOGY_TIPS = {
 
 
 def build_prompt(params):
+    # Функция для безопасного получения параметра
+    def get_param(param_name):
+        value = params.get(param_name, '').strip()  # Получаем значение и убираем пробелы
+        return value if value else "определи самостоятельно"
+
     base_prompt = f"""
     Создай план урока по этим данным:
     - Страница из учебника, которую ты видишь
-    - Учебник: {params['textbook']} 
-    - Уровень учебника по CEFR: {params['cefr']}
-    - Тема занятия: {params['topic']}
-    - Цель занятия: {params['goal']}
+    - Учебник: {get_param('textbook')}
+    - Уровень учебника по CEFR: {get_param('cefr')}
+    - Тема занятия: {get_param('topic')}
+    - Цель занятия: {get_param('goal')}
     - Продолжительность: {params['duration']} мин
-    - Кол-во учащихся: {params['num_students']} чел, возраст: {params['age']}
+    - Кол-во учащихся: {params['num_students']} чел, возраст: {get_param('age')}
     - Методика: {params['methodology']}
 
     Особые указания:
