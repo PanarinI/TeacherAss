@@ -22,12 +22,14 @@ METHODOLOGY_TIPS = {
 def build_prompt(params):
     base_prompt = f"""
     Создай план урока по этим данным:
+    - Страница из учебника, которую ты видишь
     - Учебник: {params['textbook']} or 
-    - Уровень: {params['cefr']}
-    - Тема: {params['topic']}
-    - Цель: {params['goal']}
-    - Время: {params['duration']} мин
-    - Ученики: {params['num_students']} чел, возраст: {params['age']}
+    - Уровень учебника по CEFR: {params['cefr']}
+    - Тема занятия: {params['topic']}
+    - Цель занятия: {params['goal']}
+    - Продолжительность: {params['duration']} мин
+    - Кол-во учащихся: {params['num_students']} чел, возраст: {params['age']}
+    - Методика: {params['methodology']}
 
     Особые указания:
     """
