@@ -9,6 +9,8 @@ from docx import Document
 import requests
 from typing import Optional
 
+from app.quotes import quotes
+from app.drawings import drawings
 
 # --- Настройка ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -175,10 +177,14 @@ theme = gr.themes.Base(
 css_path = os.path.join(os.path.dirname(__file__), "styles.css")
 
 # ИНТЕРФЕЙС
-with gr.Blocks(title="AI-Генератор уроков по фото учебника") as app:
-    advanced_settings_visible = gr.State(False)     # Добавляем состояние для видимости блока
+with gr.Blocks(theme=theme, css_paths=css_path) as app:
+    advanced_settings_visible = gr.State(value=False)  # Импортируем gr.State для хранения состояния
+    feedback_visible = gr.State(False)  # Хранит, открыт ли блок отзыва
+
+    gr.Markdown("# Логопедический конспект", elem_classes=["main-title"])
+    quote_box = gr.Markdown(random.choice(quotes), elem_classes=["quote-block"])
     with gr.Row():
-        with gr.Column(scale=1):  # левый блок
+        with gr.Column(elem_classes=["left-col"], scale=1):
             image = gr.Image(label="Фото страницы учебника*", type="filepath")
 
             # Блок 1: Учебник
@@ -242,7 +248,7 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
                 hw_required = gr.Checkbox(label="Домашнее задание")
                 web_search = gr.Checkbox(label="Доп. материалы из интернета")
 
-            btn = gr.Button("Сгенерировать план", variant="primary", size="lg")
+            btn = gr.Button("Создать план", variant="primary", size="lg")
 
         # Правая колонка — результат (output)
         with gr.Column(elem_classes=["right-col"], scale=2):
@@ -324,7 +330,6 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
         return gr.update(interactive=not adult_checked)
     adults.change(fn=toggle_age, inputs=adults, outputs=age)
 
-
     # Функция для переключения видимости Target language
     def toggle_target_language(methodology_value):
         return gr.update(visible=methodology_value == "PPP (Presentation-Practice-Production)")
@@ -399,6 +404,32 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
         inputs=all_inputs,
         outputs=[output, download_btn]
     )
+
+    # Логика: показать форму по нажатию на кнопку
+    feedback_btn.click(
+        fn=toggle_feedback_block,
+        inputs=[feedback_visible],
+        outputs=[feedback_block, feedback_visible, feedback_confirmation]
+    )
+
+    # Логика отправки обратной связи
+    def send_feedback_fn(comment, rate):
+        save_feedback(comment, rate)  # Сохраняем отзыв
+        return (
+            gr.update(visible=False),  # свернуть форму
+            False,  # сбросить состояние
+            gr.update(
+                value="✅ Спасибо! Ваш комментарий передан, и, возможно, уже сегодня ассистент станет полезнее :)",
+                visible=True
+            )
+        )
+
+    send_feedback.click(
+        fn=send_feedback_fn,
+        inputs=[feedback_text, rating],
+        outputs=[feedback_block, feedback_visible, feedback_confirmation]
+    )
+
 
 if __name__ == "__main__":
     app.launch()
