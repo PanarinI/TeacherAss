@@ -32,14 +32,42 @@ def build_prompt(params):
 
     return base_prompt + methodology_advice + EXTRA_CASES
 
+
 def _get_age_group_comment(age):
-    age_int = int(age)
-    if 6 <= age_int <= 12:
-        return "дети: фокус на играх, движении, визуалах, коротких активностях"
-    elif 13 <= age_int <= 17:
-        return "подростки: актуальные темы (напр. соцсети, игры), групповые проекты, элемент соревнования"
-    else:
-        return "взрослые: кейсы из реальной жизни, профессиональные контексты, дискуссии"
+    try:
+        # Преобразуем в строку на случай, если возраст пришёл как число
+        age_str = str(age).strip()
+
+        # Удаляем все нецифровые символы, кроме разделителей (пробел, дефис, запятая)
+        cleaned = ''.join(c if c.isdigit() or c in ' -,' else ' ' for c in age_str)
+
+        # Разбиваем по возможным разделителям
+        for separator in ['-', ' ', ',']:
+            if separator in cleaned:
+                age_parts = cleaned.split(separator)
+                # Берём первый попавшийся числовой элемент
+                for part in age_parts:
+                    if part.strip().isdigit():
+                        age_int = int(part.strip())
+                        break
+                break
+        else:
+            # Если не нашли разделителей - пробуем преобразовать целиком
+            age_int = int(cleaned) if cleaned.isdigit() else 0
+
+        # Определяем возрастную группу
+        if 6 <= age_int <= 12:
+            return "дети: фокус на играх, движении, визуалах, коротких активностях"
+        elif 13 <= age_int <= 17:
+            return "подростки: актуальные темы (напр. соцсети, игры), групповые проекты, элемент соревнования"
+        elif age_int > 17:
+            return "взрослые: кейсы из реальной жизни, профессиональные контексты, дискуссии"
+        else:
+            return "дошкольники: игровое обучение, максимальная наглядность, частая смена деятельности"
+
+    except (ValueError, AttributeError, TypeError):
+        return "учти возрастные особенности группы"
+
 
 
 METHODOLOGY_TIPS = {
