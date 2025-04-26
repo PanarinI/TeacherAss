@@ -181,7 +181,7 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
             with gr.Column(variant="panel"):
                 gr.Markdown("### 📄 Занятие", elem_classes=["block-title"])
                 topic = gr.Textbox(label="Тема", placeholder="Daily routines")
-                goal = gr.Textbox(label="Цель", placeholder="Практика Present Simple")
+                goal = gr.Textbox(label="Цель", placeholder="К концу урока ученики смогут...")
                 duration = gr.Slider(label="Длительность (мин)*", minimum=30, maximum=180, value=60, step=5)
                 inventory = gr.Textbox(label="Инвентарь", placeholder="Карточки, проектор...")
                 extra_info = gr.Textbox(label="Допонительная информация", placeholder="Класс после физкультуры, взвинченный")
