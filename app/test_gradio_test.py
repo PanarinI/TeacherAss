@@ -10,8 +10,8 @@ import requests
 from typing import Optional
 
 import random
-from .quotes import quotes
-from .drawings import drawings
+from app.quotes import quotes
+from app.drawings import drawings
 
 # --- Настройка ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
