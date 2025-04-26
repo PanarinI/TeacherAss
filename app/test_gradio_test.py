@@ -59,6 +59,7 @@ def generate_lesson_plan(
         duration: int,
         inventory: str,
         methodology: str,
+        target_language: str,
         extra_info: str,
         hw_required: bool,
         web_search: bool,
@@ -86,6 +87,7 @@ def generate_lesson_plan(
     # Собираем текстовый prompt
     lesson_params = {
         'methodology': methodology,
+        'target_language': target_language, # для PPP
         'textbook': textbook,
         'cefr': cefr,
         'topic': topic,
@@ -191,6 +193,11 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
                                           choices=["PPP (Presentation-Practice-Production)",
                                                    "TTT (Test-Teach-Test)"],
                                           value="PPP (Presentation-Practice-Production)")
+                target_language = gr.Textbox(
+                    label="Target language",
+                    placeholder="Например: 'I have been to...' 'How long have you...?' (Present Perfect experience)",
+                    visible=True  # По умолчанию видно, так как PPP выбран
+                )
 
                 advanced_btn = gr.Button(value="➕ Продвинутые настройки", size="sm")
 
@@ -213,10 +220,10 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
 
 
 
-    # --- Логика интерфейса ---
+    ### --- Логика интерфейса ---
+    # Доп. настройки
     def toggle_advanced_settings(visible):
         return gr.update(visible=not visible), not visible
-
 
     advanced_btn.click(
         fn=toggle_advanced_settings,
@@ -224,16 +231,24 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
         outputs=[advanced_block, advanced_settings_visible]
     )
 
-    # Функция для переключения видимости полей в зависимости от формата занятия
+    # Формат занятия - видимость поля если выбрано групповое
     def toggle_format(selected_format):
         return gr.update(visible=selected_format == "Групповое")
     format_type.change(fn=toggle_format, inputs=format_type, outputs=group_settings)
 
-    # Функция для переключения поля возраста
+    # Возраст - деактивация поля если нажато "Взрослые"
     def toggle_age(adult_checked):
         return gr.update(interactive=not adult_checked)
     adults.change(fn=toggle_age, inputs=adults, outputs=age)
 
+
+    # Функция для переключения видимости Target language
+    def toggle_target_language(methodology_value):
+        return gr.update(visible=methodology_value == "PPP (Presentation-Practice-Production)")
+    methodology.change(fn=toggle_target_language, inputs=methodology, outputs=target_language)
+
+
+    ### СПИСОК ВСЕХ ПАРАМЕТРОВ ИНТЕРФЕЙСА
     all_inputs = [
         image,  # Gradio компонент, соответствует image_path в функциях
         textbook,
@@ -248,6 +263,7 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
         duration,
         inventory,
         methodology,
+        target_language,
         extra_info,
         hw_required,
         web_search,
