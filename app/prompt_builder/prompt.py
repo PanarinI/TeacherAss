@@ -15,7 +15,7 @@ def build_prompt(params):
     - Количество учеников: {params['num_students']} чел
     - Возраст: {params['age']} лет
     - Методология занятия: {params['methodology']}
-    - Целевой язык: {params.get('target_language', 'не указано')}
+    - Целевой язык: {params.get('target_language', 'определи самостоятельно по загруженной странице')}
     - Дополнительная информация от учителя: {params.get('extra_info') or "не указано"}
     - Оборудование/инвентарь: {params.get('inventory') or "предложи сам"}
     - Необходимость домашнего задания: {params['hw_required']} 

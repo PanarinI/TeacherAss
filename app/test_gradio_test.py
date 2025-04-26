@@ -288,6 +288,7 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
             duration: int,
             inventory: str,
             methodology: str,
+            target_language: str,
             extra_info: str,
             hw_required: bool,
             web_search: bool,
