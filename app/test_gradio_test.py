@@ -94,7 +94,7 @@ def generate_lesson_plan(
         'goal': goal,
         'num_students': num_students,
         'age': 'Взрослые' if adults else age,
-        'level_match': ['below', 'on-level', 'above', 'mixed'][level_match],
+        'level_match': level_match,
         'duration': duration,
         'inventory': inventory,
         'hw_required': "да" if hw_required else "не требуется",
