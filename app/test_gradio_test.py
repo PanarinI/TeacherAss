@@ -175,8 +175,10 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
                     age = gr.Textbox(label="Возраст*", placeholder="10–11", interactive=True)
                     adults = gr.Checkbox(label="Взрослые")
 
-                level_match = gr.Slider(label="Соответствие уровня учебника", minimum=0, maximum=3,
-                                        step=1, value=1, info="0=ниже,1=соответствует,2=выше,3=смешанный")
+                #level_match = gr.Slider(label="Соответствие уровня учебника", minimum=0, maximum=3,
+                #                        step=1, value=1, info="0=ниже,1=соответствует,2=выше,3=смешанный")
+                level_match = gr.Dropdown(label = "Соответствие уровня учебника",
+                    choices = ["below", "on-level", "above", "mixed"], value = "on-level")
 
             # Блок 3: Занятие
             with gr.Column(variant="panel"):
