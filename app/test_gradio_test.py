@@ -133,10 +133,11 @@ def generate_lesson_plan(
     try:
         response = client.responses.create(
             input=[{"role": "user", "content": input_content}],
-            model="gpt-4o-mini",
+            model="o3-mini", #  gpt-4o-mini
             tools=tools or None,
             tool_choice=tool_choice,
-            max_output_tokens=2000,
+            max_output_tokens=8192,
+            reasoning= {"effort":"medium"},
             stream=False
         )
         return response.output_text
