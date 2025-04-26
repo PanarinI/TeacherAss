@@ -9,6 +9,7 @@ from docx import Document
 import requests
 from typing import Optional
 
+import random
 from app.quotes import quotes
 from app.drawings import drawings
 
