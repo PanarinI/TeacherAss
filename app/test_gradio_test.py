@@ -133,7 +133,7 @@ def generate_lesson_plan(
     try:
         response = client.responses.create(
             input=[{"role": "user", "content": input_content}],
-            model="o4-mini", #  gpt-4o-mini
+            model="o4-mini", #  gpt-4o-mini    gpt-4.1
             tools=tools or None,
             tool_choice=tool_choice,
             max_output_tokens=8192,
@@ -147,7 +147,34 @@ def generate_lesson_plan(
         raise gr.Error(f"Ошибка генерации: {e}")
 
 
-# --- Gradio UI ---
+
+########## ИНТЕРФЕЙС
+# Случайный рисунок в блокноте
+drawing = random.choice(drawings)
+# Текст с подсказкой и рисунком в блокноте
+hint_text = f"""Здесь появится план занятия — заполните вводные и нажмите кнопку **Создать конспект**<br>
+Создание может занять до 1 минуты
+<pre>
+{drawing}
+</pre>
+"""
+
+#ТЕМА И СТИЛИ
+### css привязывать именно так
+#theme='earneleh/paris'
+theme = gr.themes.Base(
+    secondary_hue="rose",
+    neutral_hue="stone",
+).set(
+    body_background_fill='*primary_50',
+    body_text_color='*primary_900',
+    body_text_size='*text_lg',
+    body_text_color_subdued='*primary_700',
+    body_text_weight='600',
+)
+css_path = os.path.join(os.path.dirname(__file__), "styles.css")
+
+# ИНТЕРФЕЙС
 with gr.Blocks(title="AI-Генератор уроков по фото учебника") as app:
     advanced_settings_visible = gr.State(False)     # Добавляем состояние для видимости блока
     with gr.Row():
@@ -217,11 +244,64 @@ with gr.Blocks(title="AI-Генератор уроков по фото учеб�
 
             btn = gr.Button("Сгенерировать план", variant="primary", size="lg")
 
-        with gr.Column(scale=2):  # правый блок
-            output = gr.Markdown("## План урока появится здесь...")
-            download_btn = gr.DownloadButton(label="⬇️ Скачать .docx", visible=False)
+        # Правая колонка — результат (output)
+        with gr.Column(elem_classes=["right-col"], scale=2):
+            # Общий блок-панель для правой колонки
+            with gr.Column(variant="panel"):  # <<< Главная панель
+                gr.Markdown("### Конспект", elem_classes=["block-title"])  # Заголовок ВНУТРИ панели
+                # Блок с выводом конспекта
+                output = gr.Markdown(
+                    hint_text,
+                    elem_id="plan-output"
+                )
+                # Кнопка скачивания (оставляем внутри панели)
+                download_btn = gr.DownloadButton(
+                    label="⬇️ Скачать .docx",
+                    visible=False
+                )
+            # Кнопка "Помогите нам стать лучше"
+            feedback_btn = gr.Button("💬 Помогите нам стать лучше", elem_classes=["feedback-button"])
+
+            # Скрытый блок с обратной связью
+            with gr.Column(visible=False) as feedback_block:
+                gr.Markdown("_Спасибо, что попробовали! Как вам?_\n_Ваши наблюдения и замечания помогают нам расти._")
 
 
+                def toggle_feedback_block(current_visible):
+                    return (
+                        gr.update(visible=not current_visible),  # показать/скрыть блок
+                        not current_visible,  # обновить состояние
+                        gr.update(visible=False)  # скрыть благодарность при открытии/закрытии
+                    )
+                feedback_text = gr.Textbox(
+                    label="Ваше наблюдение или комментарий",
+                    placeholder="Например: 'Для 3 лет лексика подбирается неправильно — какая там 'машина', максимум - 'би-би'",
+                    lines=4
+                )
+
+                rating = gr.Radio(
+                    choices=["1", "2", "3", "4", "5"],
+                    label="Оценка"
+                )
+
+                send_feedback = gr.Button("📩 Отправить отзыв")
+
+                feedback_confirmation = gr.Markdown(
+                    visible=False,
+                    elem_classes=["feedback-confirmation"]
+                )
+
+            # <-- Блок благодарности — ВНЕ feedback_block, но СРАЗУ ПОСЛЕ
+            with gr.Column(visible=False) as feedback_confirmation:
+                gr.Markdown("✅ Спасибо! Ваш комментарий передан и, возможно, уже сегодня ассистент станет полезнее :)")
+
+            # Остальное
+            gr.Markdown(
+                """
+                🙌 Если вас заинтересовал проект, мы приглашаем
+                👉 [присоединиться к Telegram-группе](https://t.me/+ygYoYjeD1msyMWZi)
+                """
+            )
 
     ### --- Логика интерфейса ---
     # Доп. настройки
