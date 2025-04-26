@@ -33,10 +33,11 @@ def build_prompt(params):
     return base_prompt + methodology_advice + EXTRA_CASES
 
 def _get_age_group_comment(age):
-    if 6 <= age <= 12:
+    age_int = int(age)
+    if 6 <= age_int <= 12:
         return "дети: фокус на играх, движении, визуалах, коротких активностях"
-    elif 13 <= age <= 17:
-        return "подростки: актуальные темы (соцсети, игры), групповые проекты, элемент соревнования"
+    elif 13 <= age_int <= 17:
+        return "подростки: актуальные темы (напр. соцсети, игры), групповые проекты, элемент соревнования"
     else:
         return "взрослые: кейсы из реальной жизни, профессиональные контексты, дискуссии"
 
