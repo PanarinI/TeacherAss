@@ -1,12 +1,8 @@
-streamlit
 python-dotenv
 python-docx
 openai
 gradio
 requests
 pillow
-
-
-
 
 
