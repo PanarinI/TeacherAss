@@ -47,6 +47,14 @@ def generate_docx(text: str) -> str:
     doc.save(path)
     return path
 
+# названия textbooks для автозаполнения поля Учебник
+import json
+
+with open("textbooks.json", "r", encoding="utf-8") as f:
+    TEXTBOOKS_FULL = json.load(f)
+
+TEXTBOOKS = [book["title"] for series in TEXTBOOKS_FULL["textbooks"] for book in series["levels"]]
+
 # --- Основная функция генерации ---
 def generate_lesson_plan(
         image_path: Optional[str],
@@ -182,51 +190,54 @@ with gr.Blocks(theme=theme, css_paths=css_path) as app:
     advanced_settings_visible = gr.State(value=False)  # Импортируем gr.State для хранения состояния
     feedback_visible = gr.State(False)  # Хранит, открыт ли блок отзыва
 
-    gr.Markdown("План урока английского языка", elem_classes=["main-title"])
+    gr.Markdown("#План урока английского языка", elem_classes=["main-title"])
     quote_box = gr.Markdown(random.choice(quotes), elem_classes=["quote-block"])
     with gr.Row():
         with gr.Column(elem_classes=["left-col"], scale=1):
-            image = gr.Image(label="Фото страницы учебника*", type="filepath")
+            image = gr.Image(
+                label="Фото страницы учебника*",
+                type="filepath",
+                height="auto",  # Автоматическая высота
+                container=False  # Не растягивать контейнер
+            )
 
             # Блок 1: Учебник
             with gr.Column(variant="panel"):
                 gr.Markdown("### 📚 Учебник", elem_classes=["block-title"])
-                textbook = gr.Textbox(label="Название учебника", placeholder="English File Beginner")
+                textbook = gr.Textbox(label="Название учебника", placeholder="напр. English File Beginner")
                 cefr = gr.Dropdown(label="CEFR-уровень", choices=["", "A1", "A2", "B1", "B2", "C1", "C2"],
                                    value="", info="Выберите уровень")
 
             # Блок 2: Класс
             with gr.Column(variant="panel"):
                 gr.Markdown("### 👥 Класс", elem_classes=["block-title"])
-                format_type = gr.Radio(label="Формат занятия*", choices=["Индивидуальное", "Групповое"],
+                format_type = gr.Radio(label="Формат занятия", choices=["Индивидуальное", "Групповое"],
                                        value="Групповое")
 
                 with gr.Group(visible=True) as group_settings:
-                    num_students = gr.Slider(label="Количество учеников*", minimum=1, maximum=40,
+                    num_students = gr.Slider(label="Количество учеников", minimum=1, maximum=40,
                                              value=10, step=1, info="Для групповых занятий")
 
                 with gr.Group() as age_group:
-                    age = gr.Textbox(label="Возраст*", placeholder="10–11", interactive=True)
+                    age = gr.Textbox(label="Возраст", placeholder="напр. 10–11", interactive=True)
                     adults = gr.Checkbox(label="Взрослые")
 
-                #level_match = gr.Slider(label="Соответствие уровня учебника", minimum=0, maximum=3,
-                #                        step=1, value=1, info="0=ниже,1=соответствует,2=выше,3=смешанный")
-                level_match = gr.Dropdown(label = "Соответствие уровня учебника",
-                    choices = ["below", "on-level", "above", "mixed"], value = "on-level")
+                level_match = gr.Dropdown(label = "Уровень учеников относительно учебника",
+                    choices = ["ниже", "на уровне", "выше", "mixed"], value = "на уровне")
 
             # Блок 3: Занятие
             with gr.Column(variant="panel"):
                 gr.Markdown("### 📄 Занятие", elem_classes=["block-title"])
-                topic = gr.Textbox(label="Тема", placeholder="Daily routines")
+                topic = gr.Textbox(label="Тема", placeholder="напр. Daily routines")
                 goal = gr.Textbox(label="Цель", placeholder="К концу урока ученики смогут...")
-                duration = gr.Slider(label="Длительность (мин)*", minimum=30, maximum=180, value=60, step=5)
-                inventory = gr.Textbox(label="Инвентарь", placeholder="Карточки, проектор...")
-                extra_info = gr.Textbox(label="Допонительная информация", placeholder="Класс после физкультуры, взвинченный")
+                duration = gr.Slider(label="Длительность (мин)", minimum=30, maximum=180, value=60, step=5)
+                inventory = gr.Textbox(label="Инвентарь", placeholder="по умолчанию - доска и проектор")
+                extra_info = gr.Textbox(label="Допонительная информация", placeholder="Класс весёлый и взвинченный после физкультуры")
 
             # Блок 4: Методика
             with gr.Column(variant="panel"):
                 gr.Markdown("### 🎓 Методика", elem_classes=["block-title"])
-                methodology = gr.Dropdown(label="Методика преподавания*",
+                methodology = gr.Dropdown(label="Методика преподавания",
                                           choices=["PPP (Presentation-Practice-Production)",
                                                    "TTT (Test-Teach-Test)"],
                                           value="PPP (Presentation-Practice-Production)")
@@ -236,15 +247,15 @@ with gr.Blocks(theme=theme, css_paths=css_path) as app:
                     visible=True  # По умолчанию видно, так как PPP выбран
                 )
 
-                advanced_btn = gr.Button(value="➕ Продвинутые настройки", size="sm")
-
-                # Блок продвинутых настроек, изначально скрыт
-                with gr.Column(visible=False) as advanced_block:
-                    gr.Markdown("**💡 Уровни задач (таксономия):**")
-                    repetition = gr.Checkbox(label="Повторение")
-                    application = gr.Checkbox(label="Применение")
-                    analysis = gr.Checkbox(label="Анализ")
-                    creativity = gr.Checkbox(label="Творчество")
+                # advanced_btn = gr.Button(value="➕ Продвинутые настройки (в разработке", size="sm")
+                #
+                # # Блок продвинутых настроек, изначально скрыт
+                # with gr.Column(visible=False) as advanced_block:
+                #     gr.Markdown("**💡 Уровни задач (таксономия):**")
+                #     repetition = gr.Checkbox(label="Повторение")
+                #     application = gr.Checkbox(label="Применение")
+                #     analysis = gr.Checkbox(label="Анализ")
+                #     creativity = gr.Checkbox(label="Творчество")
 
                 hw_required = gr.Checkbox(label="Домашнее задание")
                 web_search = gr.Checkbox(label="Доп. материалы из интернета")
