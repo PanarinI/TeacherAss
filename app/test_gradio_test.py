@@ -81,11 +81,11 @@ def generate_lesson_plan(
         methodology: str,
         target_language: str,
         hw_required: bool,
-        web_search: bool,
-        repetition: bool,
-        application: bool,
-        analysis: bool,
-        creativity: bool
+        web_search: bool
+        # repetition: bool,
+        # application: bool,
+        # analysis: bool,
+        # creativity: bool
 ) -> str:
 
     # Валидация API клиента
@@ -116,7 +116,7 @@ def generate_lesson_plan(
         'level_match': level_match,
         'duration': duration,
         'inventory': inventory,
-        'hw_required': "да" if hw_required else "не требуется",
+        'hw_required': hw_required,
         'extra_info': extra_info
     }
 
@@ -198,14 +198,14 @@ with gr.Blocks(theme=theme, css_paths=css_path) as app:
     advanced_settings_visible = gr.State(value=False)  # Импортируем gr.State для хранения состояния
     feedback_visible = gr.State(False)  # Хранит, открыт ли блок отзыва
 
-    gr.Markdown("#План урока английского языка", elem_classes=["main-title"])
+    gr.Markdown("# План урока английского языка", elem_classes=["main-title"])
     quote_box = gr.Markdown(random.choice(quotes), elem_classes=["quote-block"])
     with gr.Row():
         with gr.Column(elem_classes=["left-col"], scale=1):
             image = gr.Image(
                 label="Фото страницы учебника*",
                 type="filepath",
-                height="auto",  # Автоматическая высота
+                height=100,  # Автоматическая высота
                 container=False  # Не растягивать контейнер
             )
 
