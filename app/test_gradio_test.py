@@ -323,11 +323,11 @@ with gr.Blocks(theme=theme, css_paths=css_path) as app:
     def toggle_advanced_settings(visible):
         return gr.update(visible=not visible), not visible
 
-    advanced_btn.click(
-        fn=toggle_advanced_settings,
-        inputs=[advanced_settings_visible],
-        outputs=[advanced_block, advanced_settings_visible]
-    )
+    # advanced_btn.click(
+    #     fn=toggle_advanced_settings,
+    #     inputs=[advanced_settings_visible],
+    #     outputs=[advanced_block, advanced_settings_visible]
+    # )
 
     # Формат занятия - видимость поля если выбрано групповое
     def toggle_format(selected_format):
