@@ -155,7 +155,7 @@ def generate_lesson_plan(
 # Случайный рисунок в блокноте
 drawing = random.choice(drawings)
 # Текст с подсказкой и рисунком в блокноте
-hint_text = f"""Здесь появится план занятия — заполните вводные и нажмите кнопку **Создать конспект**<br>
+hint_text = f"""Здесь появится план занятия — заполните вводные и нажмите кнопку **Создать план**<br>
 Создание может занять до 1 минуты
 <pre>
 {drawing}
@@ -182,7 +182,7 @@ with gr.Blocks(theme=theme, css_paths=css_path) as app:
     advanced_settings_visible = gr.State(value=False)  # Импортируем gr.State для хранения состояния
     feedback_visible = gr.State(False)  # Хранит, открыт ли блок отзыва
 
-    gr.Markdown("# Логопедический конспект", elem_classes=["main-title"])
+    gr.Markdown("План урока английского языка", elem_classes=["main-title"])
     quote_box = gr.Markdown(random.choice(quotes), elem_classes=["quote-block"])
     with gr.Row():
         with gr.Column(elem_classes=["left-col"], scale=1):
@@ -255,8 +255,8 @@ with gr.Blocks(theme=theme, css_paths=css_path) as app:
         with gr.Column(elem_classes=["right-col"], scale=2):
             # Общий блок-панель для правой колонки
             with gr.Column(variant="panel"):  # <<< Главная панель
-                gr.Markdown("### Конспект", elem_classes=["block-title"])  # Заголовок ВНУТРИ панели
-                # Блок с выводом конспекта
+                gr.Markdown("### План урока", elem_classes=["block-title"])  # Заголовок ВНУТРИ панели
+                # Блок с выводом плана
                 output = gr.Markdown(
                     hint_text,
                     elem_id="plan-output"
