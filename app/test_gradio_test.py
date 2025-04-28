@@ -12,7 +12,7 @@ from typing import Optional
 import random
 from app.quotes import quotes
 from app.drawings import drawings
-
+from app.knowledge_base.textbooks import TEXTBOOKS
 # --- Настройка ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 load_dotenv()
@@ -50,10 +50,7 @@ def generate_docx(text: str) -> str:
 # названия textbooks для автозаполнения поля Учебник
 import json
 
-with open("textbooks.json", "r", encoding="utf-8") as f:
-    TEXTBOOKS_FULL = json.load(f)
 
-TEXTBOOKS = [book["title"] for series in TEXTBOOKS_FULL["textbooks"] for book in series["levels"]]
 
 # --- Основная функция генерации ---
 def generate_lesson_plan(
@@ -204,10 +201,10 @@ with gr.Blocks(theme=theme, css_paths=css_path) as app:
             # Блок 1: Учебник
             with gr.Column(variant="panel"):
                 gr.Markdown("### 📚 Учебник", elem_classes=["block-title"])
-                textbook = gr.Textbox(label="Название учебника", placeholder="напр. English File Beginner")
+                textbook = gr.Textbox(label="Название учебника", placeholder="напр. English File Beginner", elem_id="textbook_input")
+
                 cefr = gr.Dropdown(label="CEFR-уровень", choices=["", "A1", "A2", "B1", "B2", "C1", "C2"],
                                    value="", info="Выберите уровень")
-
             # Блок 2: Класс
             with gr.Column(variant="panel"):
                 gr.Markdown("### 👥 Класс", elem_classes=["block-title"])
@@ -347,7 +344,38 @@ with gr.Blocks(theme=theme, css_paths=css_path) as app:
         return gr.update(visible=methodology_value == "PPP (Presentation-Practice-Production)")
     methodology.change(fn=toggle_target_language, inputs=methodology, outputs=target_language)
 
+    # JS для автодополнения
+    app.load(
+        None,
+        None,
+        js=f"""
+        const textbooks = {TEXTBOOKS};
 
+        function setupAutocomplete() {{
+            const input = document.getElementById('textbook_input');
+            if (!input) return;
+
+            const datalist = document.createElement('datalist');
+            datalist.id = 'textbook_suggestions';
+
+            textbooks.forEach(book => {{
+                const option = document.createElement('option');
+                option.value = book;
+                datalist.appendChild(option);
+            }});
+
+            input.setAttribute('list', datalist.id);
+            document.body.appendChild(datalist);
+        }}
+
+        // Запускаем после загрузки
+        if (document.readyState === 'complete') {{
+            setupAutocomplete();
+        }} else {{
+            document.addEventListener('DOMContentLoaded', setupAutocomplete);
+        }}
+        """
+    )
     ### СПИСОК ВСЕХ ПАРАМЕТРОВ ИНТЕРФЕЙСА
     all_inputs = [
         image,  # Gradio компонент, соответствует image_path в функциях
