@@ -1,4 +1,12 @@
 def build_prompt(params):
+    # с обработкой пустых значений
+    def clean_value(value, default):
+        if value is None:
+            return default
+        if isinstance(value, str) and value.strip() == '':
+            return default
+        return value
+
     # Создаем базовый промпт как список строк
     prompt_base = [
         f"""
@@ -10,18 +18,18 @@ def build_prompt(params):
 Используй в плане условные визуальные схемы при необходимости - например, если нужно что-то нарисовать на доске или какую-то таблицу вынести в тетрадь - приведи общий (для понимания сути) набросок в плане.
 
 Параметры занятия:
-- УМК: {params.get('textbook') or "попробуй определи визуально через логотипы, заголовки, структуру"}
-- Уровень УМК по CEFR: {params.get('cefr') or "определи по сложности текста/упражнений или по названию учебника"} 
-- Тема: {params.get('topic') or "выяви через ключевые слова/изображения на странице"}
-- Цель: {params.get('goal') or "сформулируй как 'К концу урока ученики смогут...'"}
+- УМК: {clean_value(params.get('textbook'), "попробуй определи визуально через логотипы, заголовки, структуру")}
+- Уровень УМК по CEFR: {clean_value(params.get('cefr'), "определи по сложности текста/упражнений или по названию учебника")}
+- Тема: {clean_value(params.get('topic'), "выяви через ключевые слова/изображения на странице")}
+- Цель: {clean_value(params.get('goal'), "сформулируй сам 'К концу урока ученики смогут...'")}
+- Возраст: {params['age']} лет (учти: {_get_age_group_comment(params['age'])})
 - Продолжительность: {params['duration']} мин
 - Количество учеников: {params['num_students']} чел
-- Возраст: {params['age']} лет (учти: {_get_age_group_comment(params['age'])})
 - Методология занятия: {params['methodology']}
 - Соответствие класса (ученика) уровню учебника: {params['level_match']} ({_get_level_match_comment(params['level_match'])})
 - Target language: {params.get('target_language') or 'определи самостоятельно по загруженной странице'}
 - Оборудование/инвентарь: {params.get('inventory') or "стандартный класс + проектор"}
-- Необходимость домашнего задания: {params['hw_required']} 
+
 """
     ]
 
@@ -38,6 +46,11 @@ def build_prompt(params):
     methodology_advice = METHODOLOGY_TIPS.get(params['methodology'], "")
 
     return base_prompt + methodology_advice
+
+
+def is_empty_or_whitespace(text):
+    """Проверяет, является ли текст пустым или содержит только пробельные символы"""
+    return text is None or (isinstance(text, str) and text.strip() == '')
 
 def _get_level_match_comment(level):
     comments = {

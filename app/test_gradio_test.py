@@ -205,7 +205,7 @@ with gr.Blocks(theme=theme, css_paths=css_path) as app:
             image = gr.Image(
                 label="Фото страницы учебника*",
                 type="filepath",
-                height=100,  # Автоматическая высота
+                height=250,  # Автоматическая высота
                 container=False  # Не растягивать контейнер
             )
 
@@ -214,7 +214,7 @@ with gr.Blocks(theme=theme, css_paths=css_path) as app:
                 gr.Markdown("### 📚 Учебник", elem_classes=["block-title"])
                 textbook = gr.Textbox(label="Название учебника", placeholder="напр. English File Beginner", elem_id="textbook_input")
 
-                cefr = gr.Dropdown(label="CEFR-уровень", choices=["", "A1", "A2", "B1", "B2", "C1", "C2"],
+                cefr = gr.Dropdown(label="Уровень", choices=["", "A1", "A2", "B1", "B2", "C1", "C2"],
                                    value="", info="Выберите уровень")
             # Блок 2: Класс
             with gr.Column(variant="panel"):
@@ -325,7 +325,7 @@ with gr.Blocks(theme=theme, css_paths=css_path) as app:
             gr.Markdown(
                 """
                 🙌 Если вас заинтересовал проект, мы приглашаем
-                👉 [присоединиться к Telegram-группе](https://t.me/+ygYoYjeD1msyMWZi)
+                👉 [присоединиться к Telegram-группе](https://t.me/+yN9BSJ1DJxxjZmJi)
                 """
             )
 
