@@ -50,9 +50,20 @@ def generate_docx(text: str) -> str:
 # названия textbooks для автозаполнения поля Учебник
 import json
 
+## Сохраняем отзыв через POST в google-таблицу
+GOOGLE_SHEET_URL = os.getenv("FEEDBACK_GS_URL")
 
+def save_feedback(comment, rate):
+    payload = {
+        "comment": comment,
+        "rate": rate
+    }
+    try:
+        requests.post(GOOGLE_SHEET_URL, json=payload, timeout=3)
+    except Exception as e:
+        print(f"Ошибка при отправке отзыва: {e}")
 
-# --- Основная функция генерации ---
+### ОСНОВНАЯ ФУНКЦИЯ ГЕНЕРАЦИИ
 def generate_lesson_plan(
         image_path: Optional[str],
         textbook: str,
@@ -394,11 +405,11 @@ with gr.Blocks(theme=theme, css_paths=css_path) as app:
         methodology,
         target_language,
         hw_required,
-        web_search,
-        repetition,
-        application,
-        analysis,
-        creativity
+        web_search
+        # repetition,
+        # application,
+        # analysis,
+        # creativity
     ]
 
     # Коллбек генерации
@@ -419,11 +430,11 @@ with gr.Blocks(theme=theme, css_paths=css_path) as app:
             methodology: str,
             target_language: str,
             hw_required: bool,
-            web_search: bool,
-            repetition: bool,
-            application: bool,
-            analysis: bool,
-            creativity: bool
+            web_search: bool
+            # repetition: bool,
+            # application: bool,
+            # analysis: bool,
+            # creativity: bool
     ):
         # Проверка обязательных полей
         if not image_path or (not adults and not age):
