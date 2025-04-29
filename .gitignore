@@ -4,8 +4,8 @@
 
 #bot/config.py
 .env
-
-
+Materials/
+dev/
 __pycache__/
 .idea/
 .idea/workspace.xml

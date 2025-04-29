@@ -65,7 +65,8 @@ def save_feedback(comment, rate):
 
 ### ОСНОВНАЯ ФУНКЦИЯ ГЕНЕРАЦИИ
 def generate_lesson_plan(
-        image_path: Optional[str],
+        main_image_path: Optional[str],
+        extra_images: Optional[list[str]],
         textbook: str,
         cefr: str,
         topic: str,
@@ -87,6 +88,17 @@ def generate_lesson_plan(
         # analysis: bool,
         # creativity: bool
 ) -> str:
+
+    # Валидация
+    if not main_image_path:
+        return "❗ Загрузите хотя бы главную страницу"
+
+    # Собираем все пути изображений
+    image_paths = [main_image_path]
+    if extra_images:
+        if len(extra_images) > 2:
+            return "❗ Максимум 2 дополнительные страницы"
+        image_paths.extend(extra_images)
 
     # Валидация API клиента
     if not client:
@@ -201,12 +213,29 @@ with gr.Blocks(theme=theme, css_paths=css_path) as app:
     gr.Markdown("# План урока английского языка", elem_classes=["main-title"])
     quote_box = gr.Markdown(random.choice(quotes), elem_classes=["quote-block"])
     with gr.Row():
-        with gr.Column(elem_classes=["left-col"], scale=1):
-            image = gr.Image(
-                label="Фото страницы учебника*",
+        with gr.Column(variant="panel"):
+            # Основной загрузчик (с камерой)
+            main_image = gr.Image(
+                label="Главная страница учебника*",
                 type="filepath",
-                height=0,  # Автоматическая высота
-                container=False  # Не растягивать контейнер
+                source="upload",  # разрешаем и загрузку, и камеру
+                tool=None,  # или "editor" если нужно редактирование
+                height=300
+            )
+
+            # Дополнительные страницы (до 2х)
+            extra_images = gr.File(
+                label="Дополнительные страницы (макс. 2)",
+                file_types=["image"],
+                file_count="multiple",
+                height=100,
+                visible=False  # по умолчанию скрыт
+            )
+
+            # Переключатель
+            show_extra = gr.Checkbox(
+                label="Добавить страницы (разворот)",
+                value=False
             )
 
             # Блок 1: Учебник
@@ -330,6 +359,18 @@ with gr.Blocks(theme=theme, css_paths=css_path) as app:
             )
 
     ### --- Логика интерфейса ---
+
+    # Показываем/скрываем блок загрузки доп. изображений
+    def toggle_extra_images(show: bool):
+        return gr.update(visible=show)
+
+
+    show_extra.change(
+        fn=toggle_extra_images,
+        inputs=show_extra,
+        outputs=extra_images
+    )
+
     ## Доп. настройки
     # def toggle_advanced_settings(visible):
     #     return gr.update(visible=not visible), not visible
@@ -452,7 +493,7 @@ with gr.Blocks(theme=theme, css_paths=css_path) as app:
 
     btn.click(
         fn=on_generate,
-        inputs=all_inputs,
+        inputs=[main_image, extra_images, all_inputs],
         outputs=[output, download_btn]
     )
 
