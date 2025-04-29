@@ -4,7 +4,9 @@
 
 #bot/config.py
 .env
+materials/
 Materials/
+*.pdf
 dev/
 __pycache__/
 .idea/

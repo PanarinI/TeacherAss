@@ -15,7 +15,7 @@ def upload_to_catbox(file_path):
         print(f"❌ Ошибка: {e}")
         return None
 
-url = upload_to_catbox("Materials/test.png")
+url = upload_to_catbox("materials/test.png")
 if url:
     print(f"✅ Прямая ссылка на файл: {url}")
 else:
