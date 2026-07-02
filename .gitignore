@@ -12,3 +12,8 @@ __pycache__/
 .idea/
 .idea/workspace.xml
 
+# живой контекст (DNA) — приватный, не в публичный код-репо (бэкап отдельно, см. Task #1)
+CLAUDE.md
+STATE.md
+DECISIONS.md
+
