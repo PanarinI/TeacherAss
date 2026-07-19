@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 760" font-family="-apple-system, 'Segoe UI', Helvetica, sans-serif">
+  <rect width="980" height="760" fill="#faf9f6"/>
+
+  <text x="40" y="42" font-size="21" font-weight="700" fill="#2c2c2a">TeacherAss · пересборка — концепт</text>
+  <text x="40" y="63" font-size="12" fill="#8a8478">черновик 2026-07-16 · собран из: сценарий автора (STATE) · карта поля · досье адаптаторов + тест diffit руками · легаси-код · жёлтые кнопки = решения автора</text>
+
+  <!-- ДУША -->
+  <rect x="40" y="84" width="900" height="66" rx="10" fill="#e9f4ee" stroke="#0f6e56" stroke-width="1.5"/>
+  <text x="58" y="110" font-size="13" font-weight="700" fill="#085041">ДУША (сценарий автора): «передо мной материал — учебник · страница · вообще ничего → завтра урок с МОИМ классом»</text>
+  <text x="58" y="132" font-size="12.5" fill="#2c2c2a">→ всё необходимое для урока, СТРОГО по материалу · не всегда план: и узкие артефакты (грам-референс на печать · блок упражнений лестницей)</text>
+
+  <!-- ВЗАИМОДЕЙСТВИЕ -->
+  <rect x="40" y="166" width="900" height="60" rx="10" fill="#ffffff" stroke="#d3d1c7"/>
+  <text x="58" y="190" font-size="13" font-weight="700" fill="#2c2c2a">ВЗАИМОДЕЙСТВИЕ = ДИАЛОГ-БОТ (решение автора 07-16, модель diffit — потрогана руками)</text>
+  <text x="58" y="211" font-size="12.5" fill="#5f5e5a">прогрессивные вопросы-выборы по ходу генерации · inline-правка любого элемента · ⚰ легаси-форма Gradio ~17 полей заранее — похоронить</text>
+
+  <!-- ТРИ НЕСУЩИХ -->
+  <text x="40" y="260" font-size="13" font-weight="700" fill="#8a8478">ТРИ НЕСУЩИХ = щели поля (никто из шестёрки не делает — досье 07-16)</text>
+  <rect x="40" y="272" width="288" height="118" rx="10" fill="#fdf8ec" stroke="#c9a227"/>
+  <text x="56" y="298" font-size="13" font-weight="700" fill="#7a6414">Методики-каркас</text>
+  <text x="56" y="318" font-size="12" fill="#2c2c2a">PPP / TTT / ESA · лестница контроля</text>
+  <text x="56" y="336" font-size="12" fill="#2c2c2a">(контролируемые → свободные)</text>
+  <text x="56" y="358" font-size="11.5" fill="#5f5e5a">✅ уже в легаси-промпте (PPP глубоко);</text>
+  <text x="56" y="374" font-size="11.5" fill="#5f5e5a">расширить матрицей Methods.md (ESA·TPR·TBL)</text>
+
+  <rect x="346" y="272" width="288" height="118" rx="10" fill="#fdf8ec" stroke="#c9a227"/>
+  <text x="362" y="298" font-size="13" font-weight="700" fill="#7a6414">Свой материал глазами</text>
+  <text x="362" y="318" font-size="12" fill="#2c2c2a">фото бумажного разворота · PDF · текст</text>
+  <text x="362" y="336" font-size="12" fill="#2c2c2a">— вход, который не строит никто</text>
+  <text x="362" y="358" font-size="11.5" fill="#5f5e5a">🔶 интуиция автора «учителям понравится» —</text>
+  <text x="362" y="374" font-size="11.5" fill="#5f5e5a">проверяется ТОЛЬКО живым тестом (не данными)</text>
+
+  <rect x="652" y="272" width="288" height="118" rx="10" fill="#fdf8ec" stroke="#c9a227"/>
+  <text x="668" y="298" font-size="13" font-weight="700" fill="#7a6414">Живая память класса</text>
+  <text x="668" y="318" font-size="12" fill="#2c2c2a">помнит МОЙ 7-й класс · прошлый урок ·</text>
+  <text x="668" y="336" font-size="12" fill="#2c2c2a">стиль учителя → готовит точнее</text>
+  <text x="668" y="358" font-size="11.5" fill="#5f5e5a">сердце-инвариант проекта; у поля — только</text>
+  <text x="668" y="374" font-size="11.5" fill="#5f5e5a">аналитика ученика (другой объект)</text>
+
+  <!-- TABLE-STAKES -->
+  <rect x="40" y="406" width="900" height="52" rx="10" fill="#f1efe8" stroke="#d3d1c7"/>
+  <text x="58" y="428" font-size="12.5" font-weight="700" fill="#5f5e5a">TABLE-STAKES (без этого не выходить — есть у всего поля):</text>
+  <text x="58" y="447" font-size="12" fill="#5f5e5a">адаптация уровня/языка · экспорт Google/PDF/печать · quizzes · freemium-вход · качество генерации ≥ diffit (планка высокая — тест автора)</text>
+
+  <!-- ВИЛКИ -->
+  <text x="40" y="492" font-size="13" font-weight="700" fill="#8a8478">ВИЛКИ — кнопки автора (механика готова под любой ответ)</text>
+  <rect x="40" y="504" width="288" height="74" rx="10" fill="#fffbe8" stroke="#d9a53f" stroke-width="1.5"/>
+  <text x="56" y="528" font-size="12.5" font-weight="700" fill="#854f0b">Форма</text>
+  <text x="56" y="548" font-size="12" fill="#2c2c2a">CWS-расширение ↔ iOS-апп ↔ веб</text>
+  <text x="56" y="566" font-size="11" fill="#8a8478">фото-вход естественен на iOS · спрос мерен на вебе</text>
+
+  <rect x="346" y="504" width="288" height="74" rx="10" fill="#fffbe8" stroke="#d9a53f" stroke-width="1.5"/>
+  <text x="362" y="528" font-size="12.5" font-weight="700" fill="#854f0b">Сегмент</text>
+  <text x="362" y="548" font-size="12" fill="#2c2c2a">ESL-глубина ↔ все предметы</text>
+  <text x="362" y="566" font-size="11" fill="#8a8478">экспертиза автора + twee-мир · шире = diffit-мир</text>
+
+  <rect x="652" y="504" width="288" height="74" rx="10" fill="#fffbe8" stroke="#d9a53f" stroke-width="1.5"/>
+  <text x="668" y="528" font-size="12.5" font-weight="700" fill="#854f0b">Память</text>
+  <text x="668" y="548" font-size="12" fill="#2c2c2a">в MVP ↔ слоем v2</text>
+  <text x="668" y="566" font-size="11" fill="#8a8478">сердце проекта против скорости первого среза</text>
+
+  <!-- ПУТЬ -->
+  <rect x="40" y="596" width="430" height="64" rx="10" fill="#ffffff" stroke="#d3d1c7"/>
+  <text x="56" y="620" font-size="12.5" font-weight="700" fill="#2c2c2a">MVP-срез (предложение)</text>
+  <text x="56" y="640" font-size="12" fill="#5f5e5a">диалог × свой материал × методики × узкие артефакты</text>
+
+  <rect x="486" y="596" width="220" height="64" rx="10" fill="#ffffff" stroke="#d3d1c7"/>
+  <text x="502" y="620" font-size="12.5" font-weight="700" fill="#2c2c2a">Каналы</text>
+  <text x="502" y="640" font-size="12" fill="#5f5e5a">Custom GPT старт · SEO-дверь позже</text>
+
+  <rect x="722" y="596" width="218" height="64" rx="10" fill="#ffffff" stroke="#d3d1c7"/>
+  <text x="738" y="620" font-size="12.5" font-weight="700" fill="#2c2c2a">Горизонт</text>
+  <text x="738" y="640" font-size="12" fill="#5f5e5a">Ричи = тело · КИВО волна 2 (15 сент)</text>
+
+  <line x1="470" y1="628" x2="486" y2="628" stroke="#b4b2a9" stroke-width="1.5"/>
+  <line x1="706" y1="628" x2="722" y2="628" stroke="#b4b2a9" stroke-width="1.5"/>
+
+  <text x="40" y="700" font-size="11" fill="#8a8478">Одна душа — много тел: софт (этот концепт) кормит доход-трек · Ричи-тело даёт присутствие и КИВО-вау · души не путать, не затирать.</text>
+  <text x="40" y="720" font-size="11" fill="#8a8478">Источники: TeacherAss/STATE 07-16 · app-studio/research/teacher_prep_field_report.html · adaptation_donors_dossier.html · легаси app/main.py + prompt_builder/</text>
+</svg>
